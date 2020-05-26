@@ -1,0 +1,68 @@
+nav {
+  background-color: black;
+  color: white;
+}
+
+#center > * {
+  border: 1px solid black;
+  background-color: rgba(54, 100, 72, 0.85);
+}
+
+#center > p {
+  font-size:18px;
+  color: white;
+}
+
+#todoItems li {
+  background: rgb(224, 224, 224);
+  font-size: 18px;
+}
+
+/* Different colors on odd items */
+#todoItems li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+#todoItems li:hover {
+  background: rgb(100, 91, 91);
+  color: white;
+}
+
+#todoItems li.checked {
+  background: #888;
+  color: #fff;
+  text-decoration: line-through;
+}
+
+#todoItems li.checked::before {
+  position: absolute;
+  border-color: #fff;
+}
+
+#widgetBar {
+  position: absolute;
+  display: flex;
+  width: 210px;
+  justify-content: space-between;
+  align-items: center;
+  top:-8px;
+  right: 60px;
+  background-color: black;
+}
+
+#widgetBar > label > li {
+  color: white;
+  transition: color 0.35s ease-in-out;
+}
+
+#widgetBar > label > li:hover {
+  color: #585151;
+}
+
+#signInForm > input[type="submit"] {
+  color: gray;
+}
+
+#signInForm > input[type="text"]{
+  color: black;
+}
