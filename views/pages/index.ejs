@@ -13,27 +13,8 @@
 
 </head>
 <body>
-  <nav>
-    <h1>DeskHub</h1>
-  
-    <!-- This idea was adapted from the following codepen: https://codepen.io/erikterwan/pen/EVzeRP -->
-    <div id="hamburgerToggle">
-      <input type="checkbox"/>
-      <!-- Spans to make the hamburger: -->
-      <span></span>
-      <span></span>
-      <span></span>
-      <ul id="widgetBar">
-        <label title="Weather"><li id='weather'><i class="fas fa-cloud-sun fa-2x"></i></li></label>
-        <!-- <label title="Hiking Trails"><li id='trails'><i class="fas fa-hiking fa-2x"></i></i></li></label> -->
-        <label title="News"><li id='news'><i class="fas fa-newspaper fa-2x"></i></li></label>
-        <label title="Stocks"><li id='stocks'><i class="fas fa-chart-line fa-2x"></i></li></label>
-        <label title="Developer Jobs"><li id='jobs'><i class="fas fa-laptop-code fa-2x"></i></li></label>
-        <label title="About Us"><li id='about'><i class="fas fa-at fa-2x"></i></li></label>
+  <%- include("../layout/header.ejs") %>
 
-      </ul>
-    </div>
-  </nav>
   <div id='wrapper'>
     <div id="rightWidgets" class='widgDiv'>
       <ul class="widgetTray">
@@ -50,10 +31,10 @@
             <h2><%= dateAsArr[4] %></h2>
             <h3><%= dateAsArr[0] %> <br> <%= dateAsArr[1] %> <%= dateAsArr[2] %></h3>
           </div>
-          <div id="userName">
+          <!-- <div id="userName">
             <% let username = 'Niccoryan0' %>
             <p><%=username%></p>
-          </div>
+          </div> -->
         </div>
         <div id="todo">
           <div id="myDIV" class="header">
