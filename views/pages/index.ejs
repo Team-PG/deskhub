@@ -50,7 +50,9 @@
           </ul>
         </div>
       </section>
-      <p>Some Inspirational Quote</p>
+      <% if (randomQuote) { %>
+        <p><%= randomQuote %></p>
+      <% } %>
     </div>
   
     <div id="leftWidgets" class='widgDiv'>

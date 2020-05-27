@@ -36,7 +36,10 @@ app.get('/', (req, res) => {
   // } else {
   //   res.redirect('/login');
   // }
-  res.render('pages/index');
+  // quotes API
+  getQuote().then((randomQuote) => {
+    res.render('pages/index', { randomQuote });
+  });
 });
 
 app.get('/login', (req, res) => [
@@ -51,7 +54,21 @@ app.get('/news', getHeadlineNews);
 
 app.put('/news/:type', getNewsSearch);
 
-function getHeadlineNews (req, res) {
+function getQuote() {
+  const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
+  return superagent.get(url).then((result) => {
+    const quotes = result.body.filter((quote) => {
+      return quote.en.length < 150;
+    });
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    return quotes[randomIndex].en;
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+function getHeadlineNews(req, res) {
   const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
   const queryParams = {
     'api-key': process.env.NEWS_API_KEY
