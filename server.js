@@ -116,15 +116,29 @@ function JobCon(obj){
 }
 
 app.get('/jobs',(req,res) => {
-  const userLang = req.body.userLang ? `description=${userLang}` : '';
-  const userLoc = req.body.userLoc ? req.body.userLoc : 'California';
-  const apiUrl = `https://jobs.github.com/positions.json?${userLang}&location=${userLoc}`;
+  const userLoc = 'California';
+  const apiUrl = `https://jobs.github.com/positions.json?&location=${userLoc}`;
+  superagent.get(apiUrl)
+    .then(result => {
+      const jobArr = result.body.map(val => new JobCon(val));
+      // console.log(result.body);
+      res.render('pages/jobs/jobs', {'jobArr' : jobArr});
+    });
+});
+
+app.post('/jobs/search', (req,res) => {
+  console.log('body  ', req.body);
+  const searchLang = req.body.searchLang ? `description=${req.body.searchLang}` : '';
+  const searchLoc = req.body.searchLoc ? req.body.searchLoc : 'USA';
+  console.log('language ', searchLang);
+  console.log('location', searchLoc);
+  const apiUrl = `https://jobs.github.com/positions.json?${searchLang}&location=${searchLoc}`;
 
   superagent.get(apiUrl)
     .then(result => {
       const jobArr = result.body.map(val => new JobCon(val));
-      console.log(result.body);
-      res.render('pages/jobs', {'jobArr' : jobArr});
+      // console.log(result.body);
+      res.render('pages/jobs/search', {'jobArr' : jobArr});
     });
 });
 
@@ -132,19 +146,19 @@ app.get('/weather', (req, res) => {
   const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
   const queryParams = {
     key : process.env.WEATHER_API_KEY,
-    city : 'Phoenix, Az',
+    city : 'San Francisco',
     days : 7,
   };
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
       const newWeather = result.body.data.map(obj => new Weather(obj));
-      console.log(newWeather);
+      console.log(result);
       res.render('pages/weather', {weather : newWeather});
     });
 });
 
-// app.post('/user', (req, res) => {
+app.post('/login', (req, res) => {
 //   if(req.body.userType === 'returningUser'){
 //     const sqlQuery = `SELECT password FROM users WHERE username = $1`;
 //     const sqlVals = [req.body.returningName];
@@ -157,8 +171,12 @@ app.get('/weather', (req, res) => {
 //         }
 //       });
 //   }
+
+//   if(req.body.saveInfo) {
+//     res.json({username : req.body.returningName || req.body.newName, password : req.body.returningPass || req.body.newPass});
+//   }
 //   console.log(req.body);
-// });
+});
 
 function Weather(obj){
   this.forecast = obj.weather.description;
