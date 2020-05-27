@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News</title>
+  <script src="https://kit.fontawesome.com/94c005aa00.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles/reset.css">
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/layout.css">
+  <link rel="stylesheet" href="/styles/modules.css">
+</head>
+<body>
+  <%- include("../layout/header.ejs") %>
+
+  <div>
+    <section id="center">
+      <form action="/search-news" method="POST">
+        <fieldset>
+          <label for="art">Arts</label>
+          <input type="radio" name="searchType" value="art">
+          <label for="automobiles">Automobiles</label>
+          <input type="radio" name="searchType" value="automobiles">
+          <label for="business">Business</label>
+          <input type="radio" name="searchType" value="business">
+          <label for="health">Health</label>
+          <input type="radio" name="searchType" value="health">
+          <label for="movies">Movies</label>
+          <input type="radio" name="searchType" value="movies">
+          <label for="politics">Politics</label>
+          <input type="radio" name="searchType" value="politics">
+          <label for="science">Science</label>
+          <input type="radio" name="searchType" value="science">
+          <label for="sports">Sports</label>
+          <input type="radio" name="searchType" value="sports">
+          <label for="tech">Technology</label>
+          <input type="radio" name="searchType" value="tech">
+          <label for="us">US</label>
+          <input type="radio" name="searchType" value="us">
+          <label for="world">World</label>
+          <input type="radio" name="searchType" value="world">
+          <label for="top">Top Headlines</label>
+          <input type="radio" name="searchType" value="top">
+          <input type="submit">
+        </fieldset>
+      </form>
+      <ul>
+        <% news.forEach(val => { %>
+            <li>
+              <h2><%= val.title %></h2>
+              <br>
+              <h2><%= val.byline %></h2>
+              <br>
+              <p><%= val.abstract %></p>
+              <br>
+              <a href="<%= val.url %>">See Full Artical</a>
+            </li>
+        <% }) %>
+      </ul>
+    </section>
+  </div>
+</body>
+</html> 

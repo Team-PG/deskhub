@@ -13,25 +13,8 @@
 
 </head>
 <body>
-  <nav>
-    <h1>DeskHub</h1>
-  
-    <!-- This idea was adapted from the following codepen: https://codepen.io/erikterwan/pen/EVzeRP -->
-    <div id="hamburgerToggle">
-      <input type="checkbox"/>
-      <!-- Spans to make the hamburger: -->
-      <span></span>
-      <span></span>
-      <span></span>
-      <ul id="widgetBar">
-        <li id="weather"><img src="https://place-hold.it/35" alt=""></li>
-        <li id="trails"><i class="fas fa-hiking fa-2x"></i></i></li>
-        <li id="news"><i class="fas fa-newspaper fa-2x"></i></li>
-        <li id="stocks"><i class="fas fa-chart-line fa-2x"></i></li>
-        <li id="crypto"><i class="fab fa-bitcoin fa-2x"></i></li>
-      </ul>
-    </div>
-  </nav>
+  <%- include("../layout/header.ejs") %>
+
   <div id="wrapper">
     <div id="rightWidgets" class="widgDiv">
       <ul class="widgetTray">

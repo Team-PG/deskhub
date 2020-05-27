@@ -25,13 +25,22 @@ button {
   margin-bottom: 25px;
   border: solid black;
   border-width: 0px 0px 2px 0px;
-  overflow-x: hidden;
+  word-wrap: break-word;
 }
 
 .center > ul > li:first-child {
   margin-top: 15px;
 }
 
+.center > ul > li:last-child {
+  margin-bottom: 0px;
+  border: none;
+}
+
 .center > ul {
   width: 80% !important;
+}
+
+p {
+  line-height: 18px;
 }

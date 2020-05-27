@@ -1,5 +1,4 @@
 'use strict';
-console.log('hi');
 $(() => {
   $('.jobDescription').hide();
   const items = $('li');
@@ -9,4 +8,7 @@ $(() => {
     });
 
   }
+
+  $('li#jobs').addClass('colorPageWidget');
+
 });

@@ -36,20 +36,20 @@ app.get('/', (req, res) => {
   // } else {
   //   res.redirect('/login');
   // }
-  res.render('index');
+  res.render('pages/index');
 });
 
 app.get('/login', (req, res) => [
-  res.render('login')
+  res.render('pages/login')
 ]);
 
 app.get('/about', (req, res) => {
-  res.render('about');
+  res.render('pages/about');
 });
 
-app.get('/news', getHeadlineNews)
+app.get('/news', getHeadlineNews);
 
-app.put('/news/:type', getNewsSearch)
+app.put('/news/:type', getNewsSearch);
 
 function getHeadlineNews (req, res) {
   const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
@@ -62,12 +62,12 @@ function getHeadlineNews (req, res) {
     .then(result => {
       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
       console.log(result.body.results);
-      res.render('news', {'news': newNews});
-    })  
+      res.render('pages/news', {'news': newNews});
+    })
     .catch(error =>{
       res.send(error).status(500);
       console.log(error);
-    })
+    });
 }
 
 function getNewsSearch(req, res){
@@ -105,18 +105,13 @@ function NewsSearch(obj){
 
 }
 
-// function Weather(obj){
-//   this.forecast = obj.weather.description;
-//   this.time = new Date(obj.ts * 1000).toDateString();
-// }
-
 function JobCon(obj){
   this.type = obj.type;
   this.url = obj.url;
   this.company = obj.company;
   this.location = obj.location;
   this.title = obj.title;
-  this.description = obj.description.replace(/[(]*<[/]*[\w]*[\s]*\S*>[)]*/g, '').replace(/&amp;/g, '&').replace('##', '<br>').split('\n').join(' ');
+  this.description = obj.description.replace(/[(]*<[/]*[\w]*[\s]*\S*>[)]*/g, '').replace(/&amp;/g, '&').replace('##', '<br>').replace('\n', '<br>');
   this.createdOn = obj.created_at;
 }
 
@@ -128,36 +123,54 @@ app.get('/jobs',(req,res) => {
   superagent.get(apiUrl)
     .then(result => {
       const jobArr = result.body.map(val => new JobCon(val));
-      console.log(jobArr);
-      res.render('jobs', {'jobArr' : jobArr});
+      console.log(result.body);
+      res.render('pages/jobs', {'jobArr' : jobArr});
     });
 });
 
-// function Weather(obj){
-//   this.forecast = obj.weather.description;
-//   this.time = new Date(obj.ts * 1000).toDateString();
-// }
-// Weather.Query = function(req) {
-//   this.key = process.env.WEATHER_API_KEY;
-//   this.lat = req.query.latitude;
-//   this.lon = req.query.longitude;
-// };
+app.get('/weather', (req, res) => {
+  const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
+  const queryParams = {
+    key : process.env.WEATHER_API_KEY,
+    city : 'Phoenix, Az',
+    days : 7,
+  };
+  superagent.get(apiUrl)
+    .query(queryParams)
+    .then(result => {
+      const newWeather = result.body.data.map(obj => new Weather(obj));
+      console.log(newWeather);
+      res.render('pages/weather', {weather : newWeather});
+    });
+});
 
-// function superAgentWeather(req, res){
-//   const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
-//   const queryParams = {
-//     key : process.env.WEATHER_API_KEY,
-//     lat : req.query.latitude,
-//     lon : req.query.longitude,
-//     days : 7,
-//   };
-//   superagent.get(apiUrl)
-//     .query(queryParams)
-//     .then(result => {
-//       const newWeather = result.body.data.map(obj => new Weather(obj));
-//       return newWeather;
-//     });
-// }
+// app.post('/user', (req, res) => {
+//   if(req.body.userType === 'returningUser'){
+//     const sqlQuery = `SELECT password FROM users WHERE username = $1`;
+//     const sqlVals = [req.body.returningName];
+//     client.query(sqlQuery, sqlVals)
+//       .then(result => {
+//         if (req.body.returningPass === result.rows[0]){
+//           res.redirect('/');
+//         } else {
+//           res.redirect('/login');
+//         }
+//       });
+//   }
+//   console.log(req.body);
+// });
+
+function Weather(obj){
+  this.forecast = obj.weather.description;
+  this.time = new Date(obj.ts * 1000).toDateString();
+  this.high = Math.round(obj.high_temp * (9/5) + 32);
+  this.low = Math.round(obj.low_temp * (9/5) + 32);
+  this.avg = Math.round(obj.temp * (9/5) + 32);
+  this.sunrise = new Date(obj.sunrise_ts* 1000).toString().split(' ')[4].slice(0,5);
+  this.sunset = new Date(obj.sunset_ts* 1000).toString().split(' ')[4].slice(0,5);
+
+
+}
 
 
 app.listen(PORT, () => console.log('Listening on ', PORT));
