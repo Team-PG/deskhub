@@ -18,17 +18,15 @@
   <div id='wrapper'>
     <div id='center' class="center">
       <section>
-        <h1>MOST ACTIVE STOCKS</h1>
         <form action="stocksShow" method="POST" id="searchStocks"> 
-          <h1>Search Stock Quotes</h1>
-          
-          <label for="searchStock"></label>
-          <input type="text"  name="searchStock">
-          <input type="submit">
+          <h2>Search Stock Quotes<br>(By Company Symbol)</h2>
+          <input type="text"  name="searchStock" placeholder="Ex. AAPL for Apple">
+          <button>Search</button>
           
         </form>
       </section>
-        <ul>
+      <ul>
+        <h1>MOST ACTIVE STOCKS</h1>
           <% for (let i = 0; i < resultSuper.length; i++) { %>
             <li>
               <h1><%= resultSuper[i].ticker %></h1>

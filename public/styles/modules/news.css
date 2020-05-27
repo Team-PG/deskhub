@@ -16,7 +16,7 @@ form > fieldset > legend {
   font-size: large;
 }
 
-label{
+fieldset > label{
   padding-left: 10%;
   text-align: left;
 }
@@ -27,7 +27,7 @@ label{
   margin-right: auto;
 }
 
-li {
+#center > ul > li {
   padding-top: 15px;
 }
 
