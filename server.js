@@ -47,12 +47,15 @@ app.get('/about', (req, res) => {
   res.render('pages/about');
 });
 
-app.get('/news', getHeadlineNews);
+app.get('/search', getNewsSearch);
 
-app.put('/news/:type', getNewsSearch);
+app.post('/news/show', getHeadlineNews);
 
 function getHeadlineNews (req, res) {
-  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
+  const searchType = req.body.searchType;
+// console.log(searchType)
+  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`
+  // const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
   const queryParams = {
     'api-key': process.env.NEWS_API_KEY
   };
@@ -61,8 +64,8 @@ function getHeadlineNews (req, res) {
     .query(queryParams)
     .then(result => {
       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-      console.log(result.body.results);
-      res.render('pages/news', {'news': newNews});
+      // console.log(result.body.results);
+      res.render('pages/news/show', {'news': newNews});
     })
     .catch(error =>{
       res.send(error).status(500);
@@ -71,17 +74,16 @@ function getHeadlineNews (req, res) {
 }
 
 function getNewsSearch(req, res){
-  // const searchType = req.body.searchType;
-  // const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`
+ 
   // const queryParams = {
   //   'api-key': process.env.NEWS_API_KEY
-  // };
+  // };ews/:type',
 
   // superagent.get(apiUrl)
   //   .query(queryParams)
   //   .then(result => {
   //     const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-  //     res.render('news', {'news/:type': newNews});
+      res.render('pages/news/search');
   //     console.log(result.body.response.docs);
   //   })
   //   .catch(error =>{
@@ -90,9 +92,6 @@ function getNewsSearch(req, res){
   // });
 }
 
-function NewsSearch(obj) {
-
-}
 
 function NewsHeadline(obj){
   this.title = obj.title ? obj.title: 'No Title Found';
