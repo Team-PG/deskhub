@@ -13,27 +13,8 @@
 
 </head>
 <body>
-  <nav>
-    <h1>DeskHub</h1>
-  
-    <!-- This idea was adapted from the following codepen: https://codepen.io/erikterwan/pen/EVzeRP -->
-    <div id="hamburgerToggle">
-      <input type="checkbox"/>
-      <!-- Spans to make the hamburger: -->
-      <span></span>
-      <span></span>
-      <span></span>
-      <ul id="widgetBar">
-        <label title="Weather"><li id='weather'><i class="fas fa-cloud-sun fa-2x"></i></li></label>
-        <!-- <label title="Hiking Trails"><li id='trails'><i class="fas fa-hiking fa-2x"></i></i></li></label> -->
-        <label title="News"><li id='news'><i class="fas fa-newspaper fa-2x"></i></li></label>
-        <label title="Stocks"><a href="stocks"><li id='stocks'><i class="fas fa-chart-line fa-2x"></i></li></a></label>
-        <label title="Developer Jobs"><li id='jobs'><i class="fas fa-laptop-code fa-2x"></i></li></label>
-        <label title="About Us"><li id='about'><i class="fas fa-at fa-2x"></i></li></label>
+  <%- include("../layout/header.ejs") %>
 
-      </ul>
-    </div>
-  </nav>
   <div id='wrapper'>
     <div id="rightWidgets" class='widgDiv'>
       <ul class="widgetTray">
@@ -50,14 +31,14 @@
             <h2><%= dateAsArr[4] %></h2>
             <h3><%= dateAsArr[0] %> <br> <%= dateAsArr[1] %> <%= dateAsArr[2] %></h3>
           </div>
-          <div id="userName">
+          <!-- <div id="userName">
             <% let username = 'Niccoryan0' %>
             <p><%=username%></p>
-          </div>
+          </div> -->
         </div>
         <div id="todo">
           <div id="myDIV" class="header">
-            <h2>My To Do List</h2>
+            <h2>To-do List</h2>
             <form id='taskForm'>
               <input type="text" id="newTask" placeholder="Enter a Task">
               <input type="submit" id="addTask" class="addBtn" value="Add" name="addBtn">
@@ -73,7 +54,9 @@
     </div>
   
     <div id="leftWidgets" class='widgDiv'>
-      <ul class="widgetTray">
+      <ul class="widgetTraynav>
+        <h1>DeskHub</h1>
+      </nav>">
         <li id='stocks'><p>STOCKS Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laudantium voluptate ipsam enim ratione atque, debitis tenetur, excepturi doloribus nam quia quae pariatur culpa voluptates eos voluptatum. Tempora iste aliquid quos, aspernatur incidunt quibusdam aliquam atque eius rerum, labore minus unde omnis, doloribus excepturi cumque architecto? Repellendus et esse cum illum minus magni illo dolorum impedit autem excepturi hic exercitationem tempore consequatur odio dolore culpa, ex expedita soluta iusto laudantium inventore nostrum, consectetur recusandae! Quas accusantium aliquam, omnis necessitatibus voluptatem velit animi? Laborum magnam assumenda dolor voluptatem a, provident facilis et error quis ipsum inventore enim fuga beatae officiis sed laudantium saepe, maxime laboriosam. Iure, in dolorem sequi magni ex porro itaque corporis, minima, minus dolor nostrum aut deleniti? Dolorem dolore rerum impedit veritatis, molestias eligendi explicabo nisi sit quae odio perspiciatis harum perferendis officia blanditiis laborum unde dolor alias minima, aliquid ut? Iste tenetur, ut odit error facilis dolorem magnam neque ex earum qui quasi consequatur quia modi rem. Fugit sunt ipsam, alias repellat consequuntur unde, qui iste assumenda quibusdam vitae voluptates harum at labore obcaecati ut eligendi quae reiciendis! Esse ducimus, repellendus debitis in reiciendis atque harum exercitationem recusandae fugiat quaerat perferendis impedit voluptate nulla earum, consectetur, cupiditate asperiores.</p></li>
         <li id='jobs'><p>DEVJOBS Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate iste vitae nihil sequi illo possimus tempore distinctio natus odit delectus vero veniam sapiente minima amet, tenetur doloribus illum modi ipsum nesciunt neque? Quod velit beatae, quasi odio officiis obcaecati incidunt maxime quo ut distinctio deleniti, quia dolorum eum aut pariatur aliquid iste architecto veritatis maiores enim. Deserunt dolores in aliquam ullam quis sequi possimus quibusdam quia doloribus amet assumenda voluptatum temporibus soluta consectetur veritatis, quisquam aperiam ipsa ipsum iusto corporis non ratione nostrum cumque. Nam illum quos eos iste ut. Dolore tenetur est reiciendis sunt magni, consequuntur quisquam accusantium deserunt esse fugit qui iure provident sit inventore labore, neque quam! Facilis eum eius accusamus iure illo vitae aliquid fugit magnam sit repudiandae! Fugit unde totam porro recusandae enim accusantium ratione quasi voluptate tempore hic laborum ducimus error rerum dolorem assumenda, suscipit officiis magni aut pariatur corrupti temporibus nobis expedita. Explicabo, sed! Repellat incidunt dicta vitae dolore cum, quas neque perspiciatis eum ab, pariatur natus similique amet ullam placeat, debitis molestias repellendus eos. Enim sapiente ipsum, a aliquam sequi quam, ratione ipsa labore perferendis aut architecto quasi natus accusamus officiis odit veniam aspernatur? Dolor quod beatae fugit ullam cumque reiciendis omnis?</p></li>
         <!-- <li id='trails'><p>TRAILS Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cupiditate iste vitae nihil sequi illo possimus tempore distinctio natus odit delectus vero veniam sapiente minima amet, tenetur doloribus illum modi ipsum nesciunt neque? Quod velit beatae, quasi odio officiis obcaecati incidunt maxime quo ut distinctio deleniti, quia dolorum eum aut pariatur aliquid iste architecto veritatis maiores enim. Deserunt dolores in aliquam ullam quis sequi possimus quibusdam quia doloribus amet assumenda voluptatum temporibus soluta consectetur veritatis, quisquam aperiam ipsa ipsum iusto corporis non ratione nostrum cumque. Nam illum quos eos iste ut. Dolore tenetur est reiciendis sunt magni, consequuntur quisquam accusantium deserunt esse fugit qui iure provident sit inventore labore, neque quam! Facilis eum eius accusamus iure illo vitae aliquid fugit magnam sit repudiandae! Fugit unde totam porro recusandae enim accusantium ratione quasi voluptate tempore hic laborum ducimus error rerum dolorem assumenda, suscipit officiis magni aut pariatur corrupti temporibus nobis expedita. Explicabo, sed! Repellat incidunt dicta vitae dolore cum, quas neque perspiciatis eum ab, pariatur natus similique amet ullam placeat, debitis molestias repellendus eos. Enim sapiente ipsum, a aliquam sequi quam, ratione ipsa labore perferendis aut architecto quasi natus accusamus officiis odit veniam aspernatur? Dolor quod beatae fugit ullam cumque reiciendis omnis?</p></li> -->
