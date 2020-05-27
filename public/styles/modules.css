@@ -58,3 +58,6 @@ nav {
   color: black;
 }
 
+.center > p {
+  padding: 6px 12px;
+}

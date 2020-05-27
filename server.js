@@ -41,6 +41,8 @@ app.get('/', (req, res) => {
   //   res.redirect('/login');
   // }
   // quotes API
+  app.set('username', 'Niccoryan0');
+  app.set('location', 'Seattle, Wa');
   getQuote().then((randomQuote) => {
     res.render('pages/index', { randomQuote });
   });
@@ -61,9 +63,7 @@ app.post('/news/show', getHeadlineNews);
 
 function getHeadlineNews (req, res) {
   const searchType = req.body.searchType;
-// console.log(searchType)
-  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`
-  // const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
+  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`;
   const queryParams = {
     'api-key': process.env.NEWS_API_KEY
   };
@@ -82,7 +82,7 @@ function getHeadlineNews (req, res) {
 }
 
 function getNewsSearch(req, res){
- 
+
   // const queryParams = {
   //   'api-key': process.env.NEWS_API_KEY
   // };ews/:type',
@@ -91,7 +91,7 @@ function getNewsSearch(req, res){
   //   .query(queryParams)
   //   .then(result => {
   //     const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-      res.render('pages/news/search');
+  res.render('pages/news/search');
   //     console.log(result.body.response.docs);
   //   })
   //   .catch(error =>{
@@ -111,20 +111,20 @@ function NewsHeadline(obj){
 function NewsSearch(obj){
 
 }
-  
-  
+
 function getQuote() {
-const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
-return superagent.get(url).then((result) => {
-  const quotes = result.body.filter((quote) => {
-    return quote.en.length < 150;
-  });
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  return quotes[randomIndex].en;
-})
-.catch((error) => {
-  console.error(error);
-});
+  const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
+  return superagent.get(url)
+    .then((result) => {
+      const quotes = result.body.filter((quote) => {
+        return quote.en.length < 150;
+      });
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      return quotes[randomIndex].en;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 app.get('/jobs', locJobs);
