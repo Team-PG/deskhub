@@ -9,6 +9,10 @@ const superagent = require('superagent');
 // Global vars
 const PORT = process.env.PORT;
 const app = express();
+const getJobs = require('./modules/jobModule.js');
+const locJobs = getJobs.standard;
+const searchJobs = getJobs.search;
+const getWeather = require('./modules/weatherModule.js');
 
 // Config
 // const client = new pg.Client(process.env.DATABASE_URL);
@@ -50,26 +54,16 @@ app.get('/about', (req, res) => {
   res.render('pages/about');
 });
 
-app.get('/news', getHeadlineNews);
+app.get('/search', getNewsSearch);
 
-app.put('/news/:type', getNewsSearch);
+app.post('/news/show', getHeadlineNews);
 
-function getQuote() {
-  const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
-  return superagent.get(url).then((result) => {
-    const quotes = result.body.filter((quote) => {
-      return quote.en.length < 150;
-    });
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    return quotes[randomIndex].en;
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-}
 
-function getHeadlineNews(req, res) {
-  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
+function getHeadlineNews (req, res) {
+  const searchType = req.body.searchType;
+// console.log(searchType)
+  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`
+  // const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
   const queryParams = {
     'api-key': process.env.NEWS_API_KEY
   };
@@ -78,8 +72,8 @@ function getHeadlineNews(req, res) {
     .query(queryParams)
     .then(result => {
       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-      console.log(result.body.results);
-      res.render('pages/news', {'news': newNews});
+      // console.log(result.body.results);
+      res.render('pages/news/show', {'news': newNews});
     })
     .catch(error =>{
       res.send(error).status(500);
@@ -88,17 +82,16 @@ function getHeadlineNews(req, res) {
 }
 
 function getNewsSearch(req, res){
-  // const searchType = req.body.searchType;
-  // const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`
+ 
   // const queryParams = {
   //   'api-key': process.env.NEWS_API_KEY
-  // };
+  // };ews/:type',
 
   // superagent.get(apiUrl)
   //   .query(queryParams)
   //   .then(result => {
   //     const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-  //     res.render('news', {'news/:type': newNews});
+      res.render('pages/news/search');
   //     console.log(result.body.response.docs);
   //   })
   //   .catch(error =>{
@@ -107,9 +100,6 @@ function getNewsSearch(req, res){
   // });
 }
 
-function NewsSearch(obj) {
-
-}
 
 function NewsHeadline(obj){
   this.title = obj.title ? obj.title: 'No Title Found';
@@ -121,59 +111,27 @@ function NewsHeadline(obj){
 function NewsSearch(obj){
 
 }
-
-function JobCon(obj){
-  this.type = obj.type;
-  this.url = obj.url;
-  this.company = obj.company;
-  this.location = obj.location;
-  this.title = obj.title;
-  this.description = obj.description.replace(/[(]*<[/]*[\w]*[\s]*\S*>[)]*/g, '').replace(/&amp;/g, '&').replace('##', '<br>').replace('\n', '<br>');
-  this.createdOn = obj.created_at;
+  
+  
+function getQuote() {
+const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
+return superagent.get(url).then((result) => {
+  const quotes = result.body.filter((quote) => {
+    return quote.en.length < 150;
+  });
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  return quotes[randomIndex].en;
+})
+.catch((error) => {
+  console.error(error);
+});
 }
 
-app.get('/jobs',(req,res) => {
-  const userLoc = 'California';
-  const apiUrl = `https://jobs.github.com/positions.json?&location=${userLoc}`;
-  superagent.get(apiUrl)
-    .then(result => {
-      const jobArr = result.body.map(val => new JobCon(val));
-      // console.log(result.body);
-      res.render('pages/jobs/jobs', {'jobArr' : jobArr});
-    });
-});
+app.get('/jobs', locJobs);
 
-app.post('/jobs/search', (req,res) => {
-  console.log('body  ', req.body);
-  const searchLang = req.body.searchLang ? `description=${req.body.searchLang}` : '';
-  const searchLoc = req.body.searchLoc ? req.body.searchLoc : 'USA';
-  console.log('language ', searchLang);
-  console.log('location', searchLoc);
-  const apiUrl = `https://jobs.github.com/positions.json?${searchLang}&location=${searchLoc}`;
+app.post('/jobs/search', searchJobs);
 
-  superagent.get(apiUrl)
-    .then(result => {
-      const jobArr = result.body.map(val => new JobCon(val));
-      // console.log(result.body);
-      res.render('pages/jobs/search', {'jobArr' : jobArr});
-    });
-});
-
-app.get('/weather', (req, res) => {
-  const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
-  const queryParams = {
-    key : process.env.WEATHER_API_KEY,
-    city : 'San Francisco',
-    days : 7,
-  };
-  superagent.get(apiUrl)
-    .query(queryParams)
-    .then(result => {
-      const newWeather = result.body.data.map(obj => new Weather(obj));
-      console.log(result);
-      res.render('pages/weather', {weather : newWeather});
-    });
-});
+app.get('/weather', getWeather);
 
 app.post('/login', (req, res) => {
 //   if(req.body.userType === 'returningUser'){
@@ -188,23 +146,11 @@ app.post('/login', (req, res) => {
 //         }
 //       });
 //   }
-
 //   if(req.body.saveInfo) {
 //     res.json({username : req.body.returningName || req.body.newName, password : req.body.returningPass || req.body.newPass});
 //   }
 //   console.log(req.body);
 });
-
-function Weather(obj){
-  this.forecast = obj.weather.description;
-  this.time = new Date(obj.ts * 1000).toDateString();
-  this.high = Math.round(obj.high_temp * (9/5) + 32);
-  this.low = Math.round(obj.low_temp * (9/5) + 32);
-  this.avg = Math.round(obj.temp * (9/5) + 32);
-  this.sunrise = new Date(obj.sunrise_ts* 1000).toString().split(' ')[4].slice(0,5);
-  this.sunset = new Date(obj.sunset_ts* 1000).toString().split(' ')[4].slice(0,5);
-}
-
 
 /* ================Stocks =========================*/
 
