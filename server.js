@@ -156,6 +156,8 @@ app.post('/login', (req, res) => {
 
 app.get('/stocks', displaySearchStocks);
 
+app.get('/stocksError', displayStocksError)
+
 function displaySearchStocks(req, res) {
   const apiKey = process.env.STOCKS_API_KEY;
   const url = `https://financialmodelingprep.com/api/v3/actives`;
@@ -169,22 +171,28 @@ function displaySearchStocks(req, res) {
   });
 }
 
+function displayStocksError (req, res) {
+
+}
+
 function displaySingleStock(req, res) {
   const apiKey = process.env.STOCKS_API_KEY;
-  const symbol = req.body.searchStock;
-  const url = `https://financialmodelingprep.com/api/v3/quote-short/${symbol}`;
+  const symbol = req.body.searchStock.toUpperCase();
+  const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
   const superQuery = {
     apikey: apiKey,
   };
 
   superagent.get(url).query(superQuery)
     .then(resultSuper => {
-      res.render('stocksShow', {'resultSuper': resultSuper.body[0]});
+      res.render('pages/stocks/stocksShow', {'resultSuper': resultSuper.body[0]});
     })
-    .catch(error => console.error(error));
+    .catch(error => {
+      res.redirect('pages/stocks/stocksError')
+    });
 }
 
-app.post('/pages/stocks/stocksShow', displaySingleStock);
+app.post('/stocksShow', displaySingleStock);
 
 /* ================================================*/
 
