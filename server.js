@@ -36,7 +36,10 @@ app.get('/', (req, res) => {
   // } else {
   //   res.redirect('/login');
   // }
-  res.render('pages/index');
+  // quotes API
+  getQuote().then((randomQuote) => {
+    res.render('pages/index', { randomQuote });
+  });
 });
 
 app.get('/login', (req, res) => [
@@ -51,11 +54,15 @@ app.get('/search', getNewsSearch);
 
 app.post('/news/show', getHeadlineNews);
 
+
 function getHeadlineNews (req, res) {
   const searchType = req.body.searchType;
 // console.log(searchType)
   const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`
   // const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
+
+function getHeadlineNews(req, res) {
+  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
   const queryParams = {
     'api-key': process.env.NEWS_API_KEY
   };
@@ -103,6 +110,21 @@ function NewsHeadline(obj){
 function NewsSearch(obj){
 
 }
+  
+  
+function getQuote() {
+const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
+return superagent.get(url).then((result) => {
+  const quotes = result.body.filter((quote) => {
+    return quote.en.length < 150;
+  });
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  return quotes[randomIndex].en;
+})
+.catch((error) => {
+  console.error(error);
+});
+}
 
 function JobCon(obj){
   this.type = obj.type;
@@ -115,15 +137,29 @@ function JobCon(obj){
 }
 
 app.get('/jobs',(req,res) => {
-  const userLang = req.body.userLang ? `description=${userLang}` : '';
-  const userLoc = req.body.userLoc ? req.body.userLoc : 'California';
-  const apiUrl = `https://jobs.github.com/positions.json?${userLang}&location=${userLoc}`;
+  const userLoc = 'California';
+  const apiUrl = `https://jobs.github.com/positions.json?&location=${userLoc}`;
+  superagent.get(apiUrl)
+    .then(result => {
+      const jobArr = result.body.map(val => new JobCon(val));
+      // console.log(result.body);
+      res.render('pages/jobs/jobs', {'jobArr' : jobArr});
+    });
+});
+
+app.post('/jobs/search', (req,res) => {
+  console.log('body  ', req.body);
+  const searchLang = req.body.searchLang ? `description=${req.body.searchLang}` : '';
+  const searchLoc = req.body.searchLoc ? req.body.searchLoc : 'USA';
+  console.log('language ', searchLang);
+  console.log('location', searchLoc);
+  const apiUrl = `https://jobs.github.com/positions.json?${searchLang}&location=${searchLoc}`;
 
   superagent.get(apiUrl)
     .then(result => {
       const jobArr = result.body.map(val => new JobCon(val));
-      console.log(result.body);
-      res.render('pages/jobs', {'jobArr' : jobArr});
+      // console.log(result.body);
+      res.render('pages/jobs/search', {'jobArr' : jobArr});
     });
 });
 
@@ -131,19 +167,19 @@ app.get('/weather', (req, res) => {
   const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
   const queryParams = {
     key : process.env.WEATHER_API_KEY,
-    city : 'Phoenix, Az',
+    city : 'San Francisco',
     days : 7,
   };
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
       const newWeather = result.body.data.map(obj => new Weather(obj));
-      console.log(newWeather);
+      console.log(result);
       res.render('pages/weather', {weather : newWeather});
     });
 });
 
-// app.post('/user', (req, res) => {
+app.post('/login', (req, res) => {
 //   if(req.body.userType === 'returningUser'){
 //     const sqlQuery = `SELECT password FROM users WHERE username = $1`;
 //     const sqlVals = [req.body.returningName];
@@ -156,8 +192,12 @@ app.get('/weather', (req, res) => {
 //         }
 //       });
 //   }
+
+//   if(req.body.saveInfo) {
+//     res.json({username : req.body.returningName || req.body.newName, password : req.body.returningPass || req.body.newPass});
+//   }
 //   console.log(req.body);
-// });
+});
 
 function Weather(obj){
   this.forecast = obj.weather.description;
@@ -167,9 +207,43 @@ function Weather(obj){
   this.avg = Math.round(obj.temp * (9/5) + 32);
   this.sunrise = new Date(obj.sunrise_ts* 1000).toString().split(' ')[4].slice(0,5);
   this.sunset = new Date(obj.sunset_ts* 1000).toString().split(' ')[4].slice(0,5);
-
-
 }
 
+
+/* ================Stocks =========================*/
+
+app.get('/stocks', displaySearchStocks);
+
+function displaySearchStocks(req, res) {
+  const apiKey = process.env.STOCKS_API_KEY;
+  const url = `https://financialmodelingprep.com/api/v3/actives`;
+  const superQuery = {
+    apikey: apiKey,
+  };
+
+  superagent.get(url).query(superQuery).then(resultSuper => {
+
+    res.render('pages/stocks/stocks', {'resultSuper': resultSuper.body})
+  });
+}
+
+function displaySingleStock(req, res) {
+  const apiKey = process.env.STOCKS_API_KEY;
+  const symbol = req.body.searchStock;
+  const url = `https://financialmodelingprep.com/api/v3/quote-short/${symbol}`;
+  const superQuery = {
+    apikey: apiKey,
+  };
+
+  superagent.get(url).query(superQuery)
+    .then(resultSuper => {
+      res.render('stocksShow', {'resultSuper': resultSuper.body[0]});
+    })
+    .catch(error => console.error(error));
+}
+
+app.post('/pages/stocks/stocksShow', displaySingleStock);
+
+/* ================================================*/
 
 app.listen(PORT, () => console.log('Listening on ', PORT));

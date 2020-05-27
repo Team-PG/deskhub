@@ -38,6 +38,7 @@ h2 {
   height: fit-content;
   border: solid black;
   border-width: 0 0 2px 0;
+  padding-top: 10px;
 }
 
 
@@ -107,6 +108,7 @@ section > div > div {
 input[type="radio"] {
   margin-right: 15px;
 }
+
 
 
 /*
