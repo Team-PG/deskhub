@@ -98,6 +98,41 @@ app.get('/jobs',(req,res) => {
 
 // }
 
+/* ================Stocks =========================*/
 
+app.get('/stocks', displaySearchStocks)
+
+function displaySearchStocks(req, res) {
+  const apiKey = process.env.STOCKS_API_KEY;
+  const url = `https://financialmodelingprep.com/api/v3/actives`;
+  const superQuery = {
+    apikey: apiKey,
+  }
+
+  superagent.get(url).query(superQuery).then(resultSuper => {
+
+    res.render('stocks', {'resultSuper': resultSuper.body})
+  })
+}
+
+function displaySingleStock(req, res)  {
+  const apiKey = process.env.STOCKS_API_KEY;
+  const symbol = req.body.searchStock;
+  const url = `https://financialmodelingprep.com/api/v3/quote-short/${symbol}`;
+  const superQuery = {
+    apikey: apiKey,
+  }
+    
+
+  superagent.get(url).query(superQuery)
+    .then(resultSuper => {
+      res.render('stocksShow', {'resultSuper': resultSuper.body[0]})
+  })
+    .catch(error => console.error(error));
+}
+
+app.post('/stocksShow', displaySingleStock)
+
+/* ================================================*/
 
 app.listen(PORT, () => console.log('Listening on ', PORT));
