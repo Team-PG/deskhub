@@ -1,0 +1,35 @@
+fieldset {
+  height: 350px;
+  width: 60%;
+  padding-top: 5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form > fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+form > fieldset > legend {
+  padding-top: 10px;
+  font-size: large;
+}
+
+label{
+  padding-left: 10%;
+  text-align: left;
+}
+
+.newsSubmit {
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+li {
+  padding-top: 15px;
+}
+
+
+
