@@ -54,7 +54,7 @@ nav {
   color: gray;
 }
 
-#signInForm > input[type="text"]{
+#signInForm > input[type="text"],#signInForm > input[type="password"]{
   color: black;
 }
 
