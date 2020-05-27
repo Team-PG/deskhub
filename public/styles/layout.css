@@ -68,7 +68,7 @@ section > div > div {
 #center > section {
   background-color: rgba(54, 100, 72, 0.85);
   margin-bottom: 25px;
-  height: 400px;
+  height: fit-content;
 }
 
 /* SIGN IN PAGE RADIOS */
