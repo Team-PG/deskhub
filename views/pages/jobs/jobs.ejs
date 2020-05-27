@@ -13,10 +13,20 @@
 
 </head>
 <body>
-  <%- include("../layout/header.ejs") %>
+  <%- include("../../layout/header.ejs") %>
 
   <div id='wrapper'>
     <div id='center' class="center">
+      <form action="/jobs/search" method="POST">
+        <h2>Search By:</h2>
+        <label>Language
+          <input type="text" name="searchLang" placeholder="I.e. Python">
+        </label>
+        <label>Location
+          <input type="text" name="searchLoc" placeholder="I.e. Seattle, WA">
+        </label>
+        <input type="submit">
+      </form>
       <ul>
         <% jobArr.forEach((job, i) => { %>
           <li>

@@ -18,7 +18,6 @@ $(() => {
     };
   }
 
-
   // Add a 'checked' symbol when clicking on a list item
   const list = $('#todoItems')[0];
   list.addEventListener('click', function(ev) {
@@ -28,7 +27,6 @@ $(() => {
   }, false);
 
   // Create a new list item when clicking on the 'Add' button
-
   $('#taskForm').on('submit', newTask);
   function newTask(event) {
     event.preventDefault();
