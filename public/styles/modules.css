@@ -50,12 +50,12 @@ nav {
   background-color: black;
 }
 
-#widgetBar > label > li {
+#widgetBar > label > a > li  {
   color: white;
   transition: color 0.35s ease-in-out;
 }
 
-#widgetBar > label > li:hover {
+#widgetBar > label > a > li:hover {
   color: #585151;
 }
 
@@ -66,3 +66,4 @@ nav {
 #signInForm > input[type="text"]{
   color: black;
 }
+
