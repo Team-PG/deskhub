@@ -1,17 +1,53 @@
+/* variables for themes */
+
+:root, :root.theme-nature {
+  --background-image: url('/assets/backgrounds/nature.jpeg');
+  --color: rgba(50, 121, 174, 0.85);
+}
+
+:root.theme-space {
+  --background-image: url('/assets/backgrounds/space.jpeg');
+  --color: rgba(1, 26, 70, 0.85);
+}
+
+:root.theme-paint {
+  --background-image: url('/assets/backgrounds/paint.jpeg');
+  --color: rgba(169, 219, 236, 0.85);
+}
+
+:root.theme-sports {
+  --background-image: url('/assets/backgrounds/sports.jpeg');
+  --color: rgba(93, 47, 39, 0.85);
+}
+
+body {
+  background-image: var(--background-image);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: monospace;
+  color: white;
+}
+
 nav {
-  background-color: rgba(54, 100, 72, 0.85);
+  background-color: var(--color);
   color: white;
 }
 
 
 #center > * {
   border: 1px solid black;
-  background-color: rgba(54, 100, 72, 0.85);
+  background-color: var(--color);
 }
 
 #center > p {
   font-size:18px;
   color: white;
+}
+
+#center > section {
+  background-color: var(--color);
 }
 
 #todoItems li {
@@ -61,3 +97,24 @@ nav {
 .center > p {
   padding: 6px 12px;
 }
+
+
+/* Scrollbar: */
+::-webkit-scrollbar {
+  width: 12.5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(255, 255, 255); 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(54, 100, 72, 0.85);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color);
+}
+
