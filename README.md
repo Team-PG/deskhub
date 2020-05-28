@@ -12,3 +12,7 @@
 
 ## Database ERD:
 ![Database ERD](/assets/DB-ERD.png)
+
+## Credits:
+Photos from UnSplash
+Photo Credits: Paweł Czerwiński, Josiah Day, Jeremy Thomas, Kalen Emsley
