@@ -53,7 +53,7 @@ section > div > div {
 }
 
 #time {
-  width: fit-content;
+  /* width: fit-content; */
   border: solid black;
   border-width: 0 2px 0 0;
 }
@@ -110,60 +110,6 @@ section > div > div {
 input[type="radio"] {
   margin-right: 15px;
 }
-
-
-
-/*
-#signInForm > label {
-  display: flex;
-  flex-direction: column;
-}
-
-.radio {
-  cursor: pointer;
-  line-height: 20px;
-  font-size: 14px;
-  margin: 15px;
-}
-.radio .label {
-  display: block;
-  float: left;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #c8ccd4;
-  border-radius: 100%;
-  -webkit-tap-highlight-color: transparent;
-}
-.radio .label:after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  background: #225cff;
-  transform: scale(0);
-  transition: all 0.2s ease;
-  opacity: 0.08;
-  pointer-events: none;
-}
-.radio:hover .label:after {
-  transform: scale(3.6);
-}
-input[type="radio"]:checked + .label {
-  border-color: #225cff;
-}
-input[type="radio"]:checked + .label:after {
-  transform: scale(1);
-  transition: all 0.2s cubic-bezier(0.35, 0.9, 0.4, 0.9);
-  opacity: 1;
-}
-.center {
-  text-align: center;
-}
-.hidden {
-  display: none;
-} */
-
-
 
 
 #todo > div > * {
@@ -267,6 +213,10 @@ ul {
   border-radius: 0;
 }
 
+.addBtn:hover {
+  background-color: #bbb;
+} 
+
 /* END OF TODO LIST STYLES */
 
 
@@ -340,14 +290,18 @@ ul {
 /* Turn the top + bottom spans /s */
 #hamburgerToggle input:checked ~ span {
   transform: rotate(45deg) translate(-2px, -1px);
-}  #center > section > div:nth-child(1) {
+}  
+
+#center > section > div:nth-child(1) {
   display: flex;
 }
+
 /* Make middle one invisible */
 #hamburgerToggle input:checked ~ span:nth-last-child(3) {
   opacity: 0;
   transform: rotate(0deg) scale(0.2, 0.2);
 }
+
 /* Flip the bottom one so it goes the other direction, making an X */
 #hamburgerToggle input:checked ~ span:nth-last-child(2) {
   transform: rotate(-45deg) translate(0, -1px);
@@ -385,6 +339,7 @@ ul {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(21, 155, 72, 0.95);
 }
+
 
 
 
@@ -439,11 +394,6 @@ ul {
     display: flex;
     justify-content: space-between;
     margin: 0 2%;
-  }
-  
-  .addBtn:hover {
-    background-color: #bbb;
-  } */
-
+  }*/
 }
 

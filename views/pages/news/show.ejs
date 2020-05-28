@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/styles/modules/news.css">
 </head>
 <body>
-  <%- include("../../layout/header.ejs") %>
+  <%- include("../../layout/header.ejs", {'index' : false}) %>
   <div>
     <section id="center">
             <ul>
@@ -30,5 +30,7 @@
       </ul>
     </section>
   </div>
+  <script src="/app.js"></script>
+
 </body>
 </html>

@@ -1,6 +1,5 @@
 'use strict';
 const superagent = require('superagent');
-
 function Weather(obj){
   this.forecast = obj.weather.description;
   this.time = new Date(obj.ts * 1000).toDateString();
@@ -15,14 +14,36 @@ function getWeather(req, res) {
   const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
   const queryParams = {
     key : process.env.WEATHER_API_KEY,
-    city : 'San Francisco',
+    city : req.app.get('location') || 'Seattle, WA',
     days : 7,
   };
+  console.log(req.app.get('username'));
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
       const newWeather = result.body.data.map(obj => new Weather(obj));
-      console.log(result);
+      // console.log(result);
+      const sqlQuery = `INSERT INTO weather (forecast, timestamp, locid)`;
+      const sqlVals = [newWeather, new Date(), req.app.get('')];
+      res.render('pages/weather', {weather : newWeather});
+    });
+}
+
+function getNewWeather(req, res) {
+  const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
+  const queryParams = {
+    key : process.env.WEATHER_API_KEY,
+    city : req.body.location,
+    days : req.body.days,
+  };
+  console.log(req.app.get('username'));
+  superagent.get(apiUrl)
+    .query(queryParams)
+    .then(result => {
+      const newWeather = result.body.data.map(obj => new Weather(obj));
+      // console.log(result);
+      const sqlQuery = `INSERT INTO weather (forecast, timestamp, locid)`;
+      const sqlVals = [newWeather, new Date(), req.app.get('')];
       res.render('pages/weather', {weather : newWeather});
     });
 }
