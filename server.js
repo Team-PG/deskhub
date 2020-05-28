@@ -36,6 +36,21 @@ app.get('/login', (req, res) => [
   res.render('pages/login')
 ]);
 
+app.get('/tasks', (req, res) => {
+  // select * from tasks
+  res.json([
+    { id : Math.random(), name : 'hi' }
+  ]);
+});
+
+app.post('/tasks', (req, res) => {
+  res.json({ id : Math.random(), name : req.body.name });
+});
+
+app.delete('/tasks/:id', (req, res) => {
+  res.json({ status : 'ok' });
+});
+
 app.get('/about', (req, res) => {
   res.render('pages/about');
 });
