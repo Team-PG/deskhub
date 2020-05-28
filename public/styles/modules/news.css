@@ -1,5 +1,5 @@
 fieldset {
-  height: 350px;
+  /* height: 50%; */
   width: 60%;
   padding-top: 5%;
   margin-left: auto;
@@ -16,20 +16,58 @@ form > fieldset > legend {
   font-size: large;
 }
 
-fieldset > label{
-  padding-left: 10%;
-  text-align: left;
+fieldset > div > label{
+  /* padding-left: 10%;
+  text-align: left; */
+  /* margin-left: 25%; */
+  /* margin-right: auto; */
+  width: 53%;
+  text-align: right;
+}
+
+fieldset > div > div {
+  width: 47%;
+}
+
+fieldset > div > div > input {
+  margin-left: 15px;
+  float: left;
 }
 
 .newsSubmit {
   margin-top: 25px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 5%;
 }
 
 #center > ul > li {
   padding-top: 15px;
 }
 
+#center ul {
+  width: 80% !important;
+}
 
+#center form {
+  width: 80% !important;
+}
 
+#center p {
+  width: 80% !important;
+}
+
+#center > ul > li > a {
+  font-size: 18px;
+  color: white;
+}
+
+form > fieldset > div {
+  display: flex;
+  /* flex-direction: column; */
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 350px;
+  justify-content: left;
+  flex-wrap: wrap;
+}
