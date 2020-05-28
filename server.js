@@ -100,7 +100,7 @@ function getQuote() {
         return quote.en.length < 150;
       });
       const randomIndex = Math.floor(Math.random() * quotes.length);
-      return quotes[randomIndex].en;
+      return `${quotes[randomIndex].en} - ${quotes[randomIndex].author}`;
     })
     .catch((error) => {
       console.error(error);
