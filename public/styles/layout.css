@@ -278,6 +278,20 @@ ul {
 }
 /* END HAM MENU */
 
+#username > a {
+  color: white;
+  margin-top: 8px;
+}
+
+#username {
+  display: flex;
+  flex-direction: column;
+}
+
+#updateForm > * {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
 @media screen and (min-width:900px){
 
