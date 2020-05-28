@@ -13,6 +13,9 @@ const getJobs = require('./modules/jobModule.js');
 const locJobs = getJobs.standard;
 const searchJobs = getJobs.search;
 const getWeather = require('./modules/weatherModule.js');
+const getNews = require('./modules/newsModules.js');
+const getHeadlineNews = getNews.newsHeadline;
+const getNewsSearch = getNews.newsSearch;
 
 // Config
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -45,51 +48,51 @@ app.get('/search', getNewsSearch);
 app.post('/news/show', getHeadlineNews);
 
 
-function getHeadlineNews (req, res) {
-  const searchType = req.body.searchType;
-  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`;
-  const queryParams = {
-    'api-key': process.env.NEWS_API_KEY
-  };
+// function getHeadlineNews (req, res) {
+//   const searchType = req.body.searchType;
+//   const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`;
+//   const queryParams = {
+//     'api-key': process.env.NEWS_API_KEY
+//   };
 
-  superagent.get(apiUrl)
-    .query(queryParams)
-    .then(result => {
-      const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-      res.render('pages/news/show', {'news': newNews});
-    })
-    .catch(error =>{
-      res.send(error).status(500);
-      console.log(error);
-    });
-}
+//   superagent.get(apiUrl)
+//     .query(queryParams)
+//     .then(result => {
+//       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
+//       res.render('pages/news/show', {'news': newNews});
+//     })
+//     .catch(error =>{
+//       res.send(error).status(500);
+//       console.log(error);
+//     });
+// }
 
-function getNewsSearch(req, res){
-  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
-  const queryParams = {
-    'api-key': process.env.NEWS_API_KEY
-  }
+// function getNewsSearch(req, res){
+//   const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
+//   const queryParams = {
+//     'api-key': process.env.NEWS_API_KEY
+//   }
 
 
-  superagent.get(apiUrl)
-    .query(queryParams)
-    .then(result => {
-      const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-  res.render('pages/news/search', {'news': newNews});
-  //     console.log(result.body.response.docs);
-    })
-    .catch(error =>{
-    res.send(error).status(500);
-    console.log(error);
-  });
-}
+//   superagent.get(apiUrl)
+//     .query(queryParams)
+//     .then(result => {
+//       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
+//   res.render('pages/news/search', {'news': newNews});
+//   //     console.log(result.body.response.docs);
+//     })
+//     .catch(error =>{
+//     res.send(error).status(500);
+//     console.log(error);
+//   });
+// }
 
-function NewsHeadline(obj){
-  this.title = obj.title ? obj.title: 'No Title Found';
-  this.byline = obj.byline ? obj.byline: 'No Author Found';
-  this.abstract = obj.abstract ? obj.abstract: 'No Description Found';
-  this.url = obj.url ? obj.url: 'No URL Found';
-}
+// function NewsHeadline(obj){
+//   this.title = obj.title ? obj.title: 'No Title Found';
+//   this.byline = obj.byline ? obj.byline: 'No Author Found';
+//   this.abstract = obj.abstract ? obj.abstract: 'No Description Found';
+//   this.url = obj.url ? obj.url: 'No URL Found';
+// }
 
 function getQuote() {
   const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
