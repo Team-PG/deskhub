@@ -9,6 +9,7 @@ const pg = require('pg');
 // Global vars
 const PORT = process.env.PORT;
 const app = express();
+const methodOverride = require('method-override');
 const getJobs = require('./modules/jobModule.js');
 const locJobs = getJobs.standard;
 const searchJobs = getJobs.search;
@@ -21,6 +22,7 @@ client.connect();
 // Middleware
 app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride('_overrideMethod'));
 
 
 app.set('view engine', 'ejs');
@@ -32,15 +34,11 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/login', (req, res) => [
-  res.render('pages/login')
-]);
+app.get('/login', (req, res) => res.render('pages/login'));
 
-app.get('/about', (req, res) => {
-  res.render('pages/about');
-});
+app.get('/about', (req, res) => res.render('pages/about'));
 
-app.get('/search', getNewsSearch);
+app.get('/news', getNewsSearch);
 
 app.post('/news/show', getHeadlineNews);
 
@@ -68,20 +66,19 @@ function getNewsSearch(req, res){
   const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
   const queryParams = {
     'api-key': process.env.NEWS_API_KEY
-  }
-
+  };
 
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-  res.render('pages/news/search', {'news': newNews});
-  //     console.log(result.body.response.docs);
+      res.render('pages/news/search', {'news': newNews});
+      //     console.log(result.body.response.docs);
     })
     .catch(error =>{
-    res.send(error).status(500);
-    console.log(error);
-  });
+      res.send(error).status(500);
+      console.log(error);
+    });
 }
 
 function NewsHeadline(obj){
@@ -115,6 +112,28 @@ app.get('/weather', getWeather);
 
 app.post('/user', handleLogin);
 
+app.get('/updateInfo', (req, res) => res.render('pages/updateInfo.ejs'));
+
+app.put('/accountUpdate', (req, res) => {
+  const username = req.body.updateUsername || app.get('username');
+  const password = req.body.updatePassword || app.get('password');
+  app.set('username', username);
+  const sqlUpdate = `UPDATE users
+  SET username = $1, password = $2
+  WHERE id=$3`;
+  const updateValues = [username, password, app.get('userId')];
+  client.query(sqlUpdate, updateValues)
+    .then(res.redirect('/'));
+});
+
+app.delete('/accountDelete', (req,res) => {
+  const sqlDelete = `DELETE FROM users WHERE id=$1`;
+  const sqlVal = [app.get('userId')];
+  client.query(sqlDelete, sqlVal)
+    .then(() => res.redirect('/login'))
+    .catch(err => console.error(err));
+});
+
 function handleLogin(req, res) {
   req.body.userType === 'returningUser' ? returningUser(req,res) : newUser(req,res);
 }
@@ -143,20 +162,24 @@ function newUser(req,res) {
   const sqlVals = [req.body.newName, req.body.newPass];
   app.set('username', req.body.newName);
   app.set('location', req.body.location);
+  console.log(req.body.location);
   client.query(sqlQuery, sqlVals)
-    .then(() => {
-      const getUserId = `SELECT id FROM users WHERE username=$1`;
-      const userName = [req.body.newName];
-      client.query(getUserId, userName)
-        .then(result => {
-          const locQuery = `INSERT INTO locations (location, userid) VALUES ($1, $2)`;
-          const userId = result.rows[0].id;
-          const locVals = [req.body.location, userId];
-          app.set('userId', userId);
-          client.query(locQuery, locVals);
-        }).then(res.redirect('/'));
-    });
+    .then(() => userTableInsert(req,res));
 }
+
+function userTableInsert (req, res) {
+  const getUserId = `SELECT id FROM users WHERE username=$1`;
+  const userName = [req.body.newName];
+  client.query(getUserId, userName)
+    .then(result => {
+      const locQuery = `INSERT INTO locations (location, userid) VALUES ($1, $2)`;
+      const userId = result.rows[0].id;
+      const locVals = [req.body.location, userId];
+      app.set('userId', userId);
+      client.query(locQuery, locVals);
+    }).then(res.redirect('/'));
+}
+
 
 /* ================ Stocks =========================*/
 
@@ -173,7 +196,7 @@ function displaySearchStocks(req, res) {
 
   superagent.get(url).query(superQuery).then(resultSuper => {
 
-    res.render('pages/stocks/stocks', {'resultSuper': resultSuper.body})
+    res.render('pages/stocks/stocks', {'resultSuper': resultSuper.body});
   });
 }
 
