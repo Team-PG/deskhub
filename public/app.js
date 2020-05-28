@@ -84,5 +84,4 @@ $(() => {
   });
 
   $('li#home').addClass('colorPageWidget');
-
 });
