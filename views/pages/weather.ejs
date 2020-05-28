@@ -20,7 +20,7 @@
       <ul>
         <% weather.forEach(day => { %>
           <li>
-            <h2>Date : <%= day.time %></h2>
+            <h2>Date : <%= day.weatherTime %></h2>
             <p>Forecast : <%= day.forecast %></p>
             <% if (day.forecast.includes('clouds')) { %>
               <i class="fas fa-cloud fa-2x"></i>
