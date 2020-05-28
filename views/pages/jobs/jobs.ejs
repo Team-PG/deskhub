@@ -39,7 +39,9 @@
             <p>Posted on: <%= job.createdOn %></p>
           </li>
         <% }) %>
-  
+        <% if (!jobArr.length) { %>
+          <h1>We can't find any developer jobs in your area, try searching other areas above!</h1>
+        <% } %>
       </ul>
     </div>
   </div>

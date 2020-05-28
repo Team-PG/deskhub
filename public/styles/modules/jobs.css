@@ -4,11 +4,11 @@ h1 {
 
 button {
   display: block;
-  margin: 0 auto;
-  margin-top: 15px;
+  margin: 15px auto;
+
   border: none;
   padding: 5px 10px; 
-  background-color: white;
+  background-color: white !important;
   border-radius: 5px;
 }
 
@@ -48,4 +48,17 @@ p {
 #center > section {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.center > form {
+  margin-bottom: 20px;
+  padding: 15px 20px 5px;
+}
+
+.center > form > * {
+  margin-bottom: 10px;
+}
+
+.center > form > label > input {
+  margin-bottom: 10px;
 }
