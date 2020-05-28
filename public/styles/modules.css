@@ -12,7 +12,7 @@
 
 :root.theme-paint {
   --background-image: url('/assets/backgrounds/paint.jpeg');
-  --color: rgba(169, 219, 236, 0.85);
+  --color: rgba(114, 179, 213, 0.85);
 }
 
 :root.theme-sports {
