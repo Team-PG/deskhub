@@ -10,81 +10,106 @@
   <link rel="stylesheet" href="/styles/layout.css">
   <link rel="stylesheet" href="/styles/modules.css">
   <link rel="stylesheet" href="/styles/modules/news.css">
+  <link rel="stylesheet" href="/styles/modules/jobs.css">
 </head>
 <body>
   <%- include("../../layout/header.ejs", {'index' : false}) %>
 
   <div>
     <section id="center">
-      <p>Here's The News!</p>
-      <form action="/news/show" method="POST">
-        <fieldset>
-          <legend>Pick the category you'd like to see</legend>
-          <label for="arts">
-            <input type="radio" name="searchType" value="arts">
-            Arts
-          </label>
-          <label for="automobiles">
-            <input type="radio" name="searchType" value="automobiles">
-            Automobiles
-          </label>
-          <label for="business">
-            <input type="radio" name="searchType" value="business">
-            Business
-          </label>
-          <label for="health">
-            <input type="radio" name="searchType" value="health">
-            Health
-          </label>
-          <label for="movies">
-            <input type="radio" name="searchType" value="movies">
-            Movies
-          </label>
-          <label for="politics">
-            <input type="radio" name="searchType" value="politics">
-            Politics
-          </label>
-          <label for="science">
-            <input type="radio" name="searchType" value="science">
-            Science
-          </label>
-          <label for="sports">
-            <input type="radio" name="searchType" value="sports">
-            Sports
-          </label>
-          <label for="technology">
-            <input type="radio" name="searchType" value="technology">
-            Technology
-          </label>
-          <label for="us">
-            <input type="radio" name="searchType" value="us">
-            US
-          </label>
-          <label for="world">
-            <input type="radio" name="searchType" value="world">
-            World
-          </label>
-          <label for="home">
-            <input type="radio" name="searchType" value="home">
-            Top Headlines
-          </label>
-          <input type="submit" value="See News" class="newsSubmit">
-        </fieldset>
-      </form>
-      <% news.forEach(val => { %>
-        <li>
-          <h2><%= val.title %></h2>
-          <br>
-          <h2><%= val.byline %></h2>
-          <br>
-          <p><%= val.abstract %></p>
-          <br>
-          <a href="<%= val.url %>">See Full Artical</a>
-        </li>
-    <% }) %>
+        <p>Here's The News!</p>
+        <form action="/news/show" method="POST">
+          <fieldset>
+            <legend>Pick the category you'd like to see</legend>
+            <div>
+            <label for="arts">
+              Arts
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="arts">
+              </div>
+            <label for="automobiles">
+              Automobiles
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="automobiles">
+              </div>
+            <label for="business">
+              Business
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="business">
+              </div>
+            <label for="health">
+              Health
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="health">
+              </div>
+            <label for="movies">
+              Movies
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="movies">
+              </div>
+            <label for="politics">
+              Politics
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="politics">
+              </div>
+            <label for="science">
+              Science
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="science">
+              </div>
+            <label for="sports">
+              Sports
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="sports">
+              </div>
+            <label for="technology">
+              Technology
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="technology">
+              </div>
+            <label for="us">
+              US
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="us">
+              </div>
+            <label for="world">
+              World
+            </label>
+              <div>
+              <input type="radio" name="searchType" value="world">
+              </div>
+            <input type="submit" value="See News" class="newsSubmit">
+            </div>
+          </fieldset>
+        </form>
+      <ul>
+        <% news.forEach(val => { %>
+            <li>
+              <h2><%= val.title %></h2>
+              <br>
+              <h2><%= val.byline %></h2>
+              <br>
+              <p><%= val.abstract %></p>
+              <br>
+              <a href="<%= val.url %>">See Full Articale</a>
+            </li>
+        <% }) %>
+      </ul>
     </section>
   </div>
   <script src="/app.js"></script>
+
+  <script src="/theme.js"></script>
 </body>
 
 </html> 

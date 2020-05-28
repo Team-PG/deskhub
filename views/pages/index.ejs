@@ -53,6 +53,15 @@
       <% if (randomQuote) { %>
         <p><%= randomQuote %></p>
       <% } %>
+      <section id="theme-container">
+        <select id="theme-selector">
+          <option value="" disabled selected>Change theme...</option>
+          <option value="theme-nature">Nature</option>
+          <option value="theme-space">Space</option>
+          <option value="theme-paint">Paint</option>
+          <option value="theme-sports">Sports</option>
+        </select>
+      </section>
     </div>
   
     <div id="leftWidgets" class='widgDiv'>
@@ -66,6 +75,7 @@
 
   <script src="/app.js"></script>
   <script src="/index.js"></script>
+  <script src="/theme.js"></script>
 
 </body>
 </html>

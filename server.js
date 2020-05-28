@@ -56,7 +56,6 @@ function getHeadlineNews (req, res) {
     .query(queryParams)
     .then(result => {
       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-      // console.log(result.body.results);
       res.render('pages/news/show', {'news': newNews});
     })
     .catch(error =>{
@@ -66,23 +65,23 @@ function getHeadlineNews (req, res) {
 }
 
 function getNewsSearch(req, res){
-
+  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
   const queryParams = {
     'api-key': process.env.NEWS_API_KEY
-  };
-  const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
+  }
+
 
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-      res.render('pages/news/search', {news : newNews});
-      console.log(result.body.response.docs);
+  res.render('pages/news/search', {'news': newNews});
+  //     console.log(result.body.response.docs);
     })
     .catch(error =>{
-      res.send(error).status(500);
-      console.log(error);
-    });
+    res.send(error).status(500);
+    console.log(error);
+  });
 }
 
 function NewsHeadline(obj){
