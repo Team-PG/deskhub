@@ -8,17 +8,19 @@ function JobCon(obj){
   this.company = obj.company;
   this.location = obj.location;
   this.title = obj.title;
-  this.description = obj.description.replace(/[(]*<[/]*[\w]*[\s]*\S*>[)]*/g, '').replace(/&amp;/g, '&').replace('##', '<br>').replace('\n', '<br>');
+  this.description = obj.description.replace(/[(]*<[/]*[\w]*[\s]*\S*>[)]*/g, '').replace(/&amp;/g, '&').replace('##', '\n');
   this.createdOn = obj.created_at;
 }
 
 function standardJobs(req, res) {
-  const userLoc = 'California';
+  console.log('App set user  ', req.app.get('username'));
+  console.log('userid       ', req.app.get('userId'));
+
+  const userLoc = req.app.get('location') || 'USA';
   const apiUrl = `https://jobs.github.com/positions.json?&location=${userLoc}`;
   superagent.get(apiUrl)
     .then(result => {
       const jobArr = result.body.map(val => new JobCon(val));
-      // console.log(result.body);
       res.render('pages/jobs/jobs', {'jobArr' : jobArr});
     });
 }
@@ -34,7 +36,6 @@ function searchJobs(req, res){
   superagent.get(apiUrl)
     .then(result => {
       const jobArr = result.body.map(val => new JobCon(val));
-      // console.log(result.body);
       res.render('pages/jobs/search', {'jobArr' : jobArr});
     });
 }

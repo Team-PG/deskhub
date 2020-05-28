@@ -17,7 +17,7 @@
 </head>
 
 <body>
-  <%- include("../../layout/header.ejs") %>
+  <%- include("../../layout/header.ejs", {'index' : false}) %>
 
   <div id='wrapper'>
     <div id='center' class="center">
@@ -70,6 +70,7 @@
     </div>
   </div>
 
+  <script src="/app.js"></script>
   <script src="/login.js"></script>
   <script src="/theme.js"></script>
 </body>

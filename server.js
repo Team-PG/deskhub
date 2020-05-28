@@ -4,7 +4,7 @@
 require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
-// const pg = require('pg');
+const pg = require('pg');
 
 // Global vars
 const PORT = process.env.PORT;
@@ -15,9 +15,9 @@ const searchJobs = getJobs.search;
 const getWeather = require('./modules/weatherModule.js');
 
 // Config
-// const client = new pg.Client(process.env.DATABASE_URL);
-// client.on('error', console.error);
-// client.connect();
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', console.error);
+client.connect();
 // Middleware
 app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
@@ -26,25 +26,9 @@ app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  // Remember me info, check if info in local storage on initial page load, SQL query to get their info if in local storage
-  // if (req.body.newUser) {
-  //   const sqlQuery = `INSERT INTO table (username, password, location) VALUES ($1, $2, $3)`;
-  //   const valArr = [req.body.newName, req.body.newPass, `${req.body.locationCity}, ${req.body.locationState}`];
-  //   client.query(sqlQuery, valArr)
-  //     .then(() => {
-  //       res.render('index', {userData : false});
-  //     });
-  // }
-  // if (userName) {
-  //   res.render('index');
-  // } else {
-  //   res.redirect('/login');
-  // }
-  // quotes API
-  app.set('username', 'Niccoryan0');
-  app.set('location', 'Seattle, Wa');
+  if (!app.get('username')) res.redirect('/login');
   getQuote().then((randomQuote) => {
-    res.render('pages/index', { randomQuote });
+    res.render('pages/index', { randomQuote , 'username' : app.get('username')});
   });
 });
 
@@ -86,6 +70,7 @@ function getNewsSearch(req, res){
     'api-key': process.env.NEWS_API_KEY
   }
 
+
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
@@ -99,7 +84,6 @@ function getNewsSearch(req, res){
   });
 }
 
-
 function NewsHeadline(obj){
   this.title = obj.title ? obj.title: 'No Title Found';
   this.byline = obj.byline ? obj.byline: 'No Author Found';
@@ -107,12 +91,9 @@ function NewsHeadline(obj){
   this.url = obj.url ? obj.url: 'No URL Found';
 }
 
-function NewsSearch(obj){
-
-}
-
 function getQuote() {
   const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
+
   return superagent.get(url)
     .then((result) => {
       const quotes = result.body.filter((quote) => {
@@ -132,30 +113,56 @@ app.post('/jobs/search', searchJobs);
 
 app.get('/weather', getWeather);
 
-app.post('/login', (req, res) => {
-//   if(req.body.userType === 'returningUser'){
-//     const sqlQuery = `SELECT password FROM users WHERE username = $1`;
-//     const sqlVals = [req.body.returningName];
-//     client.query(sqlQuery, sqlVals)
-//       .then(result => {
-//         if (req.body.returningPass === result.rows[0]){
-//           res.redirect('/');
-//         } else {
-//           res.redirect('/login');
-//         }
-//       });
-//   }
-//   if(req.body.saveInfo) {
-//     res.json({username : req.body.returningName || req.body.newName, password : req.body.returningPass || req.body.newPass});
-//   }
-//   console.log(req.body);
-});
+app.post('/user', handleLogin);
 
-/* ================Stocks =========================*/
+function handleLogin(req, res) {
+  req.body.userType === 'returningUser' ? returningUser(req,res) : newUser(req,res);
+}
+
+function returningUser(req,res) {
+  const sqlQuery = `SELECT password FROM users WHERE username = $1`;
+  const sqlVals = [req.body.returningName];
+  client.query(sqlQuery, sqlVals)
+    .then(result => returningUserCheck(result, req, res));
+}
+
+function returningUserCheck(result,req,res) {
+  if (req.body.returningPass === result.rows[0].password){
+    const username = req.body.returningName;
+    app.set('username', username);
+    const getUserId = `SELECT location FROM locations INNER JOIN users ON locations.userid=users.id WHERE users.username=${username}`;
+    client.query(getUserId).then(result => app.set('location', result.rows[0]));
+    res.redirect('/');
+  } else {
+    res.redirect('/login');
+  }
+}
+
+function newUser(req,res) {
+  const sqlQuery =  `INSERT INTO users (username, password) VALUES ($1, $2)`;
+  const sqlVals = [req.body.newName, req.body.newPass];
+  app.set('username', req.body.newName);
+  app.set('location', req.body.location);
+  client.query(sqlQuery, sqlVals)
+    .then(() => {
+      const getUserId = `SELECT id FROM users WHERE username=$1`;
+      const userName = [req.body.newName];
+      client.query(getUserId, userName)
+        .then(result => {
+          const locQuery = `INSERT INTO locations (location, userid) VALUES ($1, $2)`;
+          const userId = result.rows[0].id;
+          const locVals = [req.body.location, userId];
+          app.set('userId', userId);
+          client.query(locQuery, locVals);
+        }).then(res.redirect('/'));
+    });
+}
+
+/* ================ Stocks =========================*/
 
 app.get('/stocks', displaySearchStocks);
 
-app.get('/stocksError', displayStocksError)
+app.get('/stocksError', displayStocksError);
 
 function displaySearchStocks(req, res) {
   const apiKey = process.env.STOCKS_API_KEY;
@@ -187,7 +194,7 @@ function displaySingleStock(req, res) {
       res.render('pages/stocks/stocksShow', {'resultSuper': resultSuper.body[0]});
     })
     .catch(error => {
-      res.redirect('pages/stocks/stocksError')
+      res.redirect('pages/stocks/stocksError');
     });
 }
 
@@ -196,3 +203,5 @@ app.post('/stocksShow', displaySingleStock);
 /* ================================================*/
 
 app.listen(PORT, () => console.log('Listening on ', PORT));
+
+
