@@ -20,7 +20,6 @@ function getWeather(req, res) {
 
   const checkSql = `SELECT * FROM weather INNER JOIN locations ON weather.locid=locations.id WHERE locations.location=$1`;
   const checkVal = [req.app.get('location')];
-  console.log('before the delete, location: ', checkVal);
 
   client.query(checkSql, checkVal)
     .then(result => {
@@ -37,7 +36,7 @@ function getWeather(req, res) {
               .then(() => setNewSql(req,res));
           });
       } else {
-        res.render('pages/weather', {weather : result.rows});
+        res.render('pages/weather/weather', {weather : result.rows});
       }
     });
 }
@@ -49,7 +48,6 @@ function setNewSql(req, res){
     city : req.app.get('location') || 'Seattle, WA',
     days : 7,
   };
-  console.log('Location for search:    ', req.app.get('location'));
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => handleSuper(req,res,result)).catch(error => {
@@ -60,7 +58,6 @@ function setNewSql(req, res){
 
 function handleSuper(req,res, result) {
   const newWeather = result.body.data.map(obj => new Weather(obj));
-  // console.log(result);
   newWeather.forEach(val => {
     const getLocId = `SELECT id FROM locations WHERE location=$1`;
     const locVal = [req.app.get('location')];

@@ -10,12 +10,12 @@ $(() => {
   $('input[type="radio"]').change(function(){
     $('input[type="submit"]').show();
     $('.saveInfo').show();
-    $('input[type="text"]').val('');
-    $('input[type="password"]').val('');
+    $('input[type="text"]').val('').prop('required', false);
+    $('input[type="password"]').val('').prop('required', false);
     if ($(this).is(':checked')) {
       $('.returningUserText').hide();
       $('.newUserText').hide();
-      $(`.${this.id}Text`).toggle();
+      $(`.${this.id}Text`).toggle().prop('required', true);
     }
   });
 
@@ -25,6 +25,3 @@ $(() => {
   });
 
 });
-
-// TODO:
-// Update/save results from login form to local storage
