@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeskHub</title>
+  <script src="https://kit.fontawesome.com/94c005aa00.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles/reset.css">
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/layout.css">
+  <link rel="stylesheet" href="/styles/modules.css">
+  <link rel="stylesheet" href="/styles/modules/generalSearches.css">
+  <link rel="stylesheet" href="/styles/modules/stocks.css">
+</head>
+<body>
+  <%- include("../../layout/header.ejs") %>
+
+  <div id='wrapper'>
+    <div id='center' class="center">
+      <form action="/stocks">
+        <button>Return to Top Traded Stocks</button>
+      </form>
+
+      <ul>
+        
+        <% for (let i = 0; i < sqlSaved.length; i++) { %>
+          
+            <li>
+              <img src="<%= sqlSaved[i][0].image %>" alt="Company Logo">
+              <h1><%= sqlSaved[i][0].companyName %></h1>
+              <h1><%= sqlSaved[i][0].symbol %></h1>
+              <h3>Exchange: <%= sqlSaved[i][0].exchangeShortName %></h3>
+              <br>
+              <h2>Price: <%= sqlSaved[i][0].price %></h2>
+              <h2>Range: <%= sqlSaved[i][0].range %></h2>
+              <br>
+              <h4><%= sqlSaved[i][0].description %></h4>
+            </li>
+        <% } %>
+      </ul>
+
+    </div>
+  </div>
+    
+  <script src="/stocks.js"></script>
+  <script src="/app.js"></script>
+  <script src="/theme.js"></script>
+</body>
+</html>
