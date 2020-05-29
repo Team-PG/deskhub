@@ -8,7 +8,7 @@
 
 
 ## Domain Model
-![Domain Model](/assets/images/Domain.png)
+![Domain Model](assets/images/Domain.png)
 
 ## Database ERD:
-![Database ERD](/assets/images/DB-ERD.png)
+![Database ERD](assets/images/DB-ERD.png)
