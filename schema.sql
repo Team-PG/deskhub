@@ -1,3 +1,4 @@
+DROP TABLE stocksSaved;
 -- CREATE TABLE users (
 --   id SERIAL PRIMARY KEY,
 --   username VARCHAR(255),
@@ -9,3 +10,9 @@
 --   location VARCHAR(255),
 --   FOREIGN KEY (userNames)
 -- )
+
+CREATE TABLE IF NOT EXISTS
+stocksSaved(
+  id SERIAL PRIMARY KEY,
+  symbol VARCHAR(255)
+)

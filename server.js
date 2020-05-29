@@ -4,7 +4,7 @@
 require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
-// const pg = require('pg');
+const pg = require('pg');
 
 // Global vars
 const PORT = process.env.PORT;
@@ -15,12 +15,12 @@ const searchJobs = getJobs.search;
 const getWeather = require('./modules/weatherModule.js');
 
 // Config
-// const client = new pg.Client(process.env.DATABASE_URL);
-// client.on('error', console.error);
-// client.connect();
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', console.error);
+client.connect();
 // Middleware
 app.use(express.static('./public'));
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 
 app.set('view engine', 'ejs');
@@ -61,7 +61,7 @@ app.get('/search', getNewsSearch);
 app.post('/news/show', getHeadlineNews);
 
 
-function getHeadlineNews (req, res) {
+function getHeadlineNews(req, res) {
   const searchType = req.body.searchType;
   const apiUrl = `https://api.nytimes.com/svc/topstories/v2/${searchType}.json`;
   const queryParams = {
@@ -73,15 +73,15 @@ function getHeadlineNews (req, res) {
     .then(result => {
       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
       // console.log(result.body.results);
-      res.render('pages/news/show', {'news': newNews});
+      res.render('pages/news/show', { 'news': newNews });
     })
-    .catch(error =>{
+    .catch(error => {
       res.send(error).status(500);
       console.log(error);
     });
 }
 
-function getNewsSearch(req, res){
+function getNewsSearch(req, res) {
 
   // const queryParams = {
   //   'api-key': process.env.NEWS_API_KEY
@@ -101,14 +101,14 @@ function getNewsSearch(req, res){
 }
 
 
-function NewsHeadline(obj){
-  this.title = obj.title ? obj.title: 'No Title Found';
-  this.byline = obj.byline ? obj.byline: 'No Author Found';
-  this.abstract = obj.abstract ? obj.abstract: 'No Description Found';
-  this.url = obj.url ? obj.url: 'No URL Found';
+function NewsHeadline(obj) {
+  this.title = obj.title ? obj.title : 'No Title Found';
+  this.byline = obj.byline ? obj.byline : 'No Author Found';
+  this.abstract = obj.abstract ? obj.abstract : 'No Description Found';
+  this.url = obj.url ? obj.url : 'No URL Found';
 }
 
-function NewsSearch(obj){
+function NewsSearch(obj) {
 
 }
 
@@ -134,22 +134,22 @@ app.post('/jobs/search', searchJobs);
 app.get('/weather', getWeather);
 
 app.post('/login', (req, res) => {
-//   if(req.body.userType === 'returningUser'){
-//     const sqlQuery = `SELECT password FROM users WHERE username = $1`;
-//     const sqlVals = [req.body.returningName];
-//     client.query(sqlQuery, sqlVals)
-//       .then(result => {
-//         if (req.body.returningPass === result.rows[0]){
-//           res.redirect('/');
-//         } else {
-//           res.redirect('/login');
-//         }
-//       });
-//   }
-//   if(req.body.saveInfo) {
-//     res.json({username : req.body.returningName || req.body.newName, password : req.body.returningPass || req.body.newPass});
-//   }
-//   console.log(req.body);
+  //   if(req.body.userType === 'returningUser'){
+  //     const sqlQuery = `SELECT password FROM users WHERE username = $1`;
+  //     const sqlVals = [req.body.returningName];
+  //     client.query(sqlQuery, sqlVals)
+  //       .then(result => {
+  //         if (req.body.returningPass === result.rows[0]){
+  //           res.redirect('/');
+  //         } else {
+  //           res.redirect('/login');
+  //         }
+  //       });
+  //   }
+  //   if(req.body.saveInfo) {
+  //     res.json({username : req.body.returningName || req.body.newName, password : req.body.returningPass || req.body.newPass});
+  //   }
+  //   console.log(req.body);
 });
 
 /* ================Stocks =========================*/
@@ -167,11 +167,11 @@ function displaySearchStocks(req, res) {
 
   superagent.get(url).query(superQuery).then(resultSuper => {
 
-    res.render('pages/stocks/stocks', {'resultSuper': resultSuper.body})
+    res.render('pages/stocks/stocks', { 'resultSuper': resultSuper.body })
   });
 }
 
-function displayStocksError (req, res) {
+function displayStocksError(req, res) {
 
 }
 
@@ -185,14 +185,60 @@ function displaySingleStock(req, res) {
 
   superagent.get(url).query(superQuery)
     .then(resultSuper => {
-      res.render('pages/stocks/stocksShow', {'resultSuper': resultSuper.body[0]});
+      res.render('pages/stocks/stocksShow', { 'resultSuper': resultSuper.body[0] });
     })
     .catch(error => {
       res.redirect('pages/stocks/stocksError')
     });
 }
 
+app.post('/saveStock', sqlSaveStocks)
+function sqlSaveStocks(req, res) {
+
+  const sqlSaveIntoStocks = 'INSERT INTO stockssaved (symbol) VALUES ($1)';
+  const sqlStocksValues = [req.body.symbol]
+
+  client.query(sqlSaveIntoStocks, sqlStocksValues)
+    .then(result => res.redirect('stocks'))
+}
+
+function displayTrackedStocks(req, res) {
+  const sqlQuery = 'SELECT symbol FROM stockssaved';
+  client.query(sqlQuery)
+  .then(sqlRes => {
+    const savedArr = [];
+    
+    sqlRes.rows.forEach(curr => {
+      const apiKey = process.env.STOCKS_API_KEY;
+      const symbol = curr.symbol;
+      const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
+      const superQuery = {
+        apikey: apiKey,
+      };
+      
+      savedArr.push(superagent.get(url).query(superQuery)
+      .then(resultSuper => {
+        return resultSuper.body
+        })
+        .catch(error => {
+          res.redirect('pages/stocks/stocksError')
+        }));
+      })
+      Promise.all(savedArr).then(result =>  {
+     
+      res.render('pages/stocks/trackedStocks', {'sqlSaved': result})
+      })
+    })
+    .catch(error => console.error(error));
+}
+
+
 app.post('/stocksShow', displaySingleStock);
+
+
+app.get('/trackedStocks', displayTrackedStocks)
+
+
 
 /* ================================================*/
 
