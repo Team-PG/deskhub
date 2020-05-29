@@ -3,6 +3,7 @@
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS locations CASCADE;
 DROP TABLE IF EXISTS weather CASCADE;
+DROP TABLE IF EXISTS tasks CASCADE;
 DROP TABLE IF EXISTS stocksSaved;
 
 
@@ -17,6 +18,13 @@ CREATE TABLE locations (
   location VARCHAR(255),
   userid INT NOT NULL,
   FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  userid INT NOT NULL,
+  FOREIGN KEY (userid) REFERENCES users(id)
 );
 
 CREATE TABLE weather (
