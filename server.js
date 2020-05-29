@@ -14,6 +14,8 @@ const getJobs = require('./modules/jobModule.js');
 const locJobs = getJobs.standard;
 const searchJobs = getJobs.search;
 const getWeather = require('./modules/weatherModule.js');
+const localWeather = getWeather.localWeather;
+const searchWeather = getWeather.searchWeather;
 const getNews = require('./modules/newsModules.js');
 const getHeadlineNews = getNews.newsHeadline;
 const getNewsSearch = getNews.newsSearch;
@@ -28,7 +30,7 @@ app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_overrideMethod'));
 
-
+// Routes
 app.set('view engine', 'ejs');
 
 app.get('/', renderHome);
@@ -41,6 +43,21 @@ app.get('/news', getNewsSearch);
 
 app.post('/news/show', getHeadlineNews);
 
+app.get('/jobs', locJobs);
+
+app.post('/jobs/search', searchJobs);
+
+app.get('/weather', localWeather);
+
+app.post('/weather/search', searchWeather);
+
+app.post('/user', handleLogin);
+
+app.get('/updateInfo', (req, res) => res.render('pages/updateInfo.ejs'));
+
+app.put('/accountUpdate', updateAccount);
+
+app.delete('/accountDelete', deleteAccount);
 
 function getQuote() {
   const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
@@ -51,26 +68,12 @@ function getQuote() {
         return quote.en.length < 150;
       });
       const randomIndex = Math.floor(Math.random() * quotes.length);
-      return `${quotes[randomIndex].en} \%0D - ${quotes[randomIndex].author}`;
+      return `${quotes[randomIndex].en} - ${quotes[randomIndex].author}`;
     })
     .catch((error) => {
       console.error(error);
     });
 }
-
-app.get('/jobs', locJobs);
-
-app.post('/jobs/search', searchJobs);
-
-app.get('/weather', getWeather);
-
-app.post('/user', handleLogin);
-
-app.get('/updateInfo', (req, res) => res.render('pages/updateInfo.ejs'));
-
-app.put('/accountUpdate', updateAccount);
-
-app.delete('/accountDelete', deleteAccount);
 
 function renderHome (req, res) {
   if (!app.get('username')) res.redirect('/login');

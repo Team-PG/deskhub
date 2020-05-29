@@ -75,6 +75,10 @@ fieldset > div > div > input {
   font-size: medium;
 }
 
+nav > a {
+  width: auto !important;
+}
+
 form > fieldset > div {
   display: flex;
   /* flex-direction: column; */

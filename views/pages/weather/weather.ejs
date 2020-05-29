@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DeskHub</title>
   <script src="https://kit.fontawesome.com/94c005aa00.js" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" href="/assets/images/favicon.ico" />
   <link rel="stylesheet" href="/styles/reset.css">
   <link rel="stylesheet" href="/styles/base.css">
   <link rel="stylesheet" href="/styles/layout.css">
@@ -15,10 +16,17 @@
 
 </head>
 <body>
-  <%- include("../layout/header.ejs", {'index' : false}) %>
+  <%- include("../../layout/header.ejs", {'index' : false}) %>
 
   <div id='wrapper'>
     <div id='center' class="center">
+      <form action="/weather/search" method="POST">
+        <h2>Search a different location:</h2>
+        <label>
+          <input type="text" name="searchCity" placeholder="Ex. San Diego, CA" required>
+        </label>
+        <input type="submit">
+      </form>
       <ul>
         <% weather.forEach(day => { %>
           <li>
@@ -28,14 +36,15 @@
               <i class="fas fa-cloud fa-2x"></i>
             <% } else if (day.forecast.includes('rain')) { %>
               <i class="fas fa-cloud-rain fa-2x"></i>
-            <% }else { %>
+            <% }else if (day.forecast.includes('storm')) { %>
+              <i class="fas fa-cloud-showers-heavy fa-2x"></i>
+            <% } else { %>
               <i class="fas fa-sun fa-2x"></i>
             <% } %>
             <p>Average Temp: <%= day.avg %> &deg;F<br>High: <%= day.high %> &deg;F<br>Low: <%= day.low %> &deg;F</p>
             <p>Sunrise at: <%= day.sunrise %><br>Sunset at: <%= day.sunset %></p>
           </li>
         <% }) %>
-  
       </ul>
     </div>
   </div>
