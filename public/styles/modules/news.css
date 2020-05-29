@@ -85,7 +85,7 @@ form > fieldset > div {
   flex-wrap: wrap;
 }
 
-@media (min-width: 960px){
+@media screen and (min-width: 960px){
   #center > ul  {
     display: flex;
     flex-wrap: wrap;
