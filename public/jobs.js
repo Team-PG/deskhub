@@ -11,7 +11,6 @@ $(() => {
 
   $('li#jobs').addClass('colorPageWidget');
 
-
   $('#backToJobs').click(function () {
     location.href = '/jobs';
   });

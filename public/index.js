@@ -1,6 +1,6 @@
+'use strict';
 $(() => {
   // Create a 'clear' button and append it to each list item
-  const allTasks = $('#todoItems').find('li');
   let i;
 
   function renderTask(task) {
@@ -66,8 +66,6 @@ $(() => {
   $('li#home').addClass('colorPageWidget');
 
   // database
-
-
   function getTasks() {
     return $.get({
       url: '/tasks'

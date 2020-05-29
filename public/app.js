@@ -1,6 +1,5 @@
 'use strict';
 $(() => {
-
   const hamburgerCheck = $('#hamburgerToggle > input');
   let h1hidden = false;
   hamburgerCheck.on('click', () => {
