@@ -36,8 +36,10 @@
             <p>Posted on: <%= job.createdOn %></p>
           </li>
         <% }) %>
+        <% if (!jobArr.length) { %>
+          <h1>We can't find any developer jobs for your search, sorry!</h1>
+        <% } %>
       </ul>
-      
     </div>
   </div>
   <script src="/app.js"></script>
