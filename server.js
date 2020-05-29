@@ -37,18 +37,39 @@ app.get('/login', (req, res) => [
 ]);
 
 app.get('/tasks', (req, res) => {
-  // select * from tasks
-  res.json([
-    { id : Math.random(), name : 'hi' }
-  ]);
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'SELECT * FROM tasks WHERE userid = $1';
+    const sqlVals = [user.id];
+    client.query(sqlQuery, sqlVals).then((data) => {
+      res.json(data.rows);
+    }).catch((error) => {
+      console.error(error);
+    })
+  });
 });
 
 app.post('/tasks', (req, res) => {
-  res.json({ id : Math.random(), name : req.body.name });
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'INSERT INTO tasks (name, userid) VALUES ($1, $2) RETURNING *';
+    const sqlVals = [req.body.name, user.id];
+    client.query(sqlQuery, sqlVals).then((data) => {
+      res.json(data.rows[0]);
+    }).catch((error) => {
+      console.error(error);
+    })
+  });
 });
 
 app.delete('/tasks/:id', (req, res) => {
-  res.json({ status : 'ok' });
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'DELETE FROM tasks WHERE id = $1 AND userid = $2';
+    const sqlVals = [req.params.id, user.id];
+    client.query(sqlQuery, sqlVals).then((data) => {
+      res.json({});
+    }).catch((error) => {
+      console.error(error);
+    })
+  });
 });
 
 app.get('/about', (req, res) => {
@@ -132,6 +153,17 @@ app.post('/user', handleLogin);
 
 function handleLogin(req, res) {
   req.body.userType === 'returningUser' ? returningUser(req,res) : newUser(req,res);
+}
+
+function getUser(userName) {
+  const getUser = `SELECT * FROM users WHERE username=$1 LIMIT 1`;
+  return client.query(getUser, [userName])
+  .then((data) => {
+    return data.rows[0];
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 }
 
 function returningUser(req,res) {
