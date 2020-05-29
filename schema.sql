@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS locations CASCADE;
 DROP TABLE IF EXISTS weather CASCADE;
 DROP TABLE IF EXISTS tasks CASCADE;
-DROP TABLE IF EXISTS stocksSaved;
+DROP TABLE IF EXISTS stocksSaved CASCADE;
 
 
 CREATE TABLE users (
@@ -52,4 +52,5 @@ SELECT * FROM locations JOIN users ON locations.userid = users.id;
 SELECT * FROM weather JOIN locations on weather.locid = locations.id;
 SELECT * FROM tasks JOIN users on tasks.userid = users.id;
 SELECT * FROM stocksSaved JOIN users on stocksSaved.userid = users.id;
+
 

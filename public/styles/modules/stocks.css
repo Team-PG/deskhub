@@ -16,18 +16,22 @@
 }
 
 .tradingview-widget-container {
-  visibility: hidden;
+  display: none
+}
+
+img {
+  max-width: auto1;
 }
 
 
+@media screen and (min-width: 1000px)  {
 .center > ul {
   width: 80% !important;
 }
 
 
 @media screen and (min-width: 800px)  {
-
   .tradingview-widget-container {
-    visibility: visible;
+    display: block;
   }
 }

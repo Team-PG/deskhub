@@ -22,7 +22,6 @@
       </form>
 
       <ul>
-        <% console.log('this is it ', sqlSaved[0][0])%>
         
         <% for (let i = 0; i < sqlSaved.length; i++) { %>
           
@@ -36,6 +35,33 @@
               <h2>Range: <%= sqlSaved[i][0].range %></h2>
               <br>
               <h4><%= sqlSaved[i][0].description %></h4>
+
+              <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div id="tradingview_c8cd5"></div>
+              <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/"
+                  rel="noopener" target="_blank"><span class="blue-text">Chart</span></a> by TradingView</div>
+              <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+              <script type="text/javascript">
+                new TradingView.widget(
+                  {
+                    "width": 500,
+                    "height": 400,
+                    "symbol": "<%= resultSuper.exchangeShortName%>:<%=resultSuper.symbol%>",
+                    "interval": "D",
+                    "timezone": "Etc/UTC",
+                    "theme": "light",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "allow_symbol_change": true,
+                    "container_id": "tradingview_c8cd5"
+                  }
+                );
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
             </li>
           
         <% } %>
