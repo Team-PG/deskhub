@@ -45,7 +45,7 @@ app.get('/tasks', (req, res) => {
     }).catch((error) => {
       console.error(error);
     });
-  });
+  }).catch(error => console.error(error));
 });
 
 app.post('/tasks', (req, res) => {
@@ -57,7 +57,7 @@ app.post('/tasks', (req, res) => {
     }).catch((error) => {
       console.error(error);
     });
-  });
+  }).catch(error => console.error(error));
 });
 
 app.delete('/tasks/:id', (req, res) => {
@@ -69,7 +69,7 @@ app.delete('/tasks/:id', (req, res) => {
     }).catch((error) => {
       console.error(error);
     });
-  });
+  }).catch(error => console.error(error));
 });
 
 app.get('/about', (req, res) => res.render('pages/about'));
@@ -126,7 +126,8 @@ function updateAccount (req, res) {
   WHERE id=$3`;
   const updateValues = [username, password, app.get('userId')];
   client.query(sqlUpdate, updateValues)
-    .then(res.redirect('/home'));
+    .then(res.redirect('/home'))
+    .catch(error => console.error(error));
 }
 
 
@@ -157,7 +158,8 @@ function returningUser(req,res) {
   const sqlQuery = `SELECT password FROM users WHERE username = $1`;
   const sqlVals = [req.body.returningName];
   client.query(sqlQuery, sqlVals)
-    .then(result => returningUserCheck(result, req, res));
+    .then(result => returningUserCheck(result, req, res))
+    .catch(error => console.error(error));
 }
 
 function returningUserCheck(result,req,res) {
@@ -165,8 +167,17 @@ function returningUserCheck(result,req,res) {
   else if (req.body.returningPass === result.rows[0].password){
     const username = req.body.returningName;
     app.set('username', username);
-    const getUserId = `SELECT location FROM locations INNER JOIN users ON locations.userid=users.id WHERE users.username=${username}`;
-    client.query(getUserId).then(result => app.set('location', result.rows[0]));
+    const getUserId = `SELECT id FROM users WHERE username=$1`;
+    const idVals = [username];
+    client.query(getUserId, idVals)
+      .then(result => {
+        const currId = result.rows[0].id;
+        app.set('userId', currId);
+        const getUserLoc = `SELECT location FROM locations WHERE userid=$1`;
+        const locVals = [currId];
+        client.query(getUserLoc, locVals).then(loc => app.set('location', loc.rows[0]));
+      })
+      .catch(error => console.error(error));
     res.redirect('/home');
   } else {
     res.redirect('/');
@@ -179,7 +190,8 @@ function newUser(req,res) {
   app.set('username', req.body.newName);
   app.set('location', req.body.location);
   client.query(sqlQuery, sqlVals)
-    .then(() => userTableInsert(req,res));
+    .then(() => userTableInsert(req,res))
+    .catch(error => console.error(error));
 }
 
 function userTableInsert (req, res) {
@@ -192,7 +204,8 @@ function userTableInsert (req, res) {
       const locVals = [req.body.location, userId];
       app.set('userId', userId);
       client.query(locQuery, locVals);
-    }).then(res.redirect('/home'));
+    }).then(res.redirect('/home'))
+    .catch(error => console.error(error));
 }
 
 
