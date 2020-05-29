@@ -30,12 +30,49 @@ app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_overrideMethod'));
 
+
 // Routes
 app.set('view engine', 'ejs');
 
 app.get('/', renderHome);
 
 app.get('/login', (req, res) => res.render('pages/login'));
+
+app.get('/tasks', (req, res) => {
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'SELECT * FROM tasks WHERE userid = $1';
+    const sqlVals = [user.id];
+    client.query(sqlQuery, sqlVals).then((data) => {
+      res.json(data.rows);
+    }).catch((error) => {
+      console.error(error);
+    })
+  });
+});
+
+app.post('/tasks', (req, res) => {
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'INSERT INTO tasks (name, userid) VALUES ($1, $2) RETURNING *';
+    const sqlVals = [req.body.name, user.id];
+    client.query(sqlQuery, sqlVals).then((data) => {
+      res.json(data.rows[0]);
+    }).catch((error) => {
+      console.error(error);
+    })
+  });
+});
+
+app.delete('/tasks/:id', (req, res) => {
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'DELETE FROM tasks WHERE id = $1 AND userid = $2';
+    const sqlVals = [req.params.id, user.id];
+    client.query(sqlQuery, sqlVals).then((data) => {
+      res.json({});
+    }).catch((error) => {
+      console.error(error);
+    })
+  });
+});
 
 app.get('/about', (req, res) => res.render('pages/about'));
 
@@ -94,6 +131,7 @@ function updateAccount (req, res) {
     .then(res.redirect('/'));
 }
 
+
 function deleteAccount (req, res) {
   const sqlDelete = `DELETE FROM users WHERE id=$1`;
   const sqlVal = [app.get('userId')];
@@ -104,6 +142,17 @@ function deleteAccount (req, res) {
 
 function handleLogin(req, res) {
   req.body.userType === 'returningUser' ? returningUser(req,res) : newUser(req,res);
+}
+
+function getUser(userName) {
+  const getUser = `SELECT * FROM users WHERE username=$1 LIMIT 1`;
+  return client.query(getUser, [userName])
+  .then((data) => {
+    return data.rows[0];
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 }
 
 function returningUser(req,res) {
@@ -164,11 +213,12 @@ function displaySearchStocks(req, res) {
 
   superagent.get(url).query(superQuery).then(resultSuper => {
 
-    res.render('pages/stocks/stocks', {'resultSuper': resultSuper.body});
+    res.render('pages/stocks/stocks', { 'resultSuper': resultSuper.body })
+
   });
 }
 
-function displayStocksError (req, res) {
+function displayStocksError(req, res) {
 
 }
 
@@ -182,14 +232,60 @@ function displaySingleStock(req, res) {
 
   superagent.get(url).query(superQuery)
     .then(resultSuper => {
-      res.render('pages/stocks/stocksShow', {'resultSuper': resultSuper.body[0]});
+      res.render('pages/stocks/stocksShow', { 'resultSuper': resultSuper.body[0] });
     })
     .catch(error => {
       res.redirect('pages/stocks/stocksError');
     });
 }
 
+app.post('/saveStock', sqlSaveStocks)
+function sqlSaveStocks(req, res) {
+
+  const sqlSaveIntoStocks = 'INSERT INTO stockssaved (symbol) VALUES ($1)';
+  const sqlStocksValues = [req.body.symbol]
+
+  client.query(sqlSaveIntoStocks, sqlStocksValues)
+    .then(result => res.redirect('stocks'))
+}
+
+function displayTrackedStocks(req, res) {
+  const sqlQuery = 'SELECT symbol FROM stockssaved';
+  client.query(sqlQuery)
+  .then(sqlRes => {
+    const savedArr = [];
+    
+    sqlRes.rows.forEach(curr => {
+      const apiKey = process.env.STOCKS_API_KEY;
+      const symbol = curr.symbol;
+      const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
+      const superQuery = {
+        apikey: apiKey,
+      };
+      
+      savedArr.push(superagent.get(url).query(superQuery)
+      .then(resultSuper => {
+        return resultSuper.body
+        })
+        .catch(error => {
+          res.redirect('pages/stocks/stocksError')
+        }));
+      })
+      Promise.all(savedArr).then(result =>  {
+     
+      res.render('pages/stocks/trackedStocks', {'sqlSaved': result})
+      })
+    })
+    .catch(error => console.error(error));
+}
+
+
 app.post('/stocksShow', displaySingleStock);
+
+
+app.get('/trackedStocks', displayTrackedStocks)
+
+
 
 /* ================================================*/
 

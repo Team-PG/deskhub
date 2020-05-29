@@ -1,7 +1,10 @@
+
 -- DROP TABLE needs cascade to make sure all of the info is dropped.
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS locations CASCADE;
 DROP TABLE IF EXISTS weather CASCADE;
+DROP TABLE IF EXISTS tasks CASCADE;
+DROP TABLE IF EXISTS stocksSaved;
 
 
 CREATE TABLE users (
@@ -15,6 +18,13 @@ CREATE TABLE locations (
   location VARCHAR(255),
   userid INT NOT NULL,
   FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE tasks (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255),
+  userid INT NOT NULL,
+  FOREIGN KEY (userid) REFERENCES users(id)
 );
 
 CREATE TABLE weather (
@@ -31,5 +41,12 @@ CREATE TABLE weather (
   FOREIGN KEY (locid) REFERENCES locations(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS
+stocksSaved(
+  id SERIAL PRIMARY KEY,
+  symbol VARCHAR(255)
+)
+
 SELECT * FROM locations JOIN users ON locations.userid = users.id;
 SELECT * FROM weather JOIN locations on weather.locid = locations.id;
+

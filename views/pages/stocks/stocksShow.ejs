@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="/styles/layout.css">
   <link rel="stylesheet" href="/styles/modules.css">
   <link rel="stylesheet" href="/styles/modules/jobs.css">
+  <link rel="stylesheet" href="/styles/modules/stocks.css">
 
 </head>
 
@@ -22,50 +23,60 @@
 
   <div id='wrapper'>
     <div id='center' class="center">
-        <ul>
-          <li>
-            <img src="<%= resultSuper.image %>" alt="Company Logo">
-            <h1><%= resultSuper.companyName %></h1>
-            <h1><%= resultSuper.symbol %></h1>
-            <h3>Exchange: <%= resultSuper.exchangeShortName %></h3>
-            <br>
-            <h2>Price: <%= resultSuper.price %></h2>
-            <h2>Range: <%= resultSuper.range %></h2>
-            <br>
-            <h4><%= resultSuper.description %></h4>
-            <form action="/saveStock" method="POST">
-              <input type="hidden">
-            </form>
+        <ul class="stockList">
+          <li class="singleStock">
 
+            <section class="stockLogo">
+              <img src="<%= resultSuper.image %>" alt="Company Logo">
+              <h1 class="logo"><%= resultSuper.companyName %></h1>
+              <h1><%= resultSuper.symbol %></h1>
+              <h3>Exchange: <%= resultSuper.exchangeShortName %></h3>
+            </section>
+            
+            <section class="stockInfo">
+              <h2>Price: <%= resultSuper.price %></h2>
+              <h2>Range: <%= resultSuper.range %></h2>
+              <br>
+              <h4><%= resultSuper.description %></h4>
+              <form action="/saveStock" method="POST">
+                
+                <input type="hidden" name="symbol" value="<%= resultSuper.symbol %> ">
+                
+                <button type="submit">Add to "Tracking List"</button>
+                
+              </form>
+            </section>
+
+
+            <!-- TradingView Widget BEGIN -->
+            <!-- <div class="tradingview-widget-container">
+              <div id="tradingview_c8cd5"></div>
+              <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/"
+                  rel="noopener" target="_blank"><span class="blue-text">Chart</span></a> by TradingView</div>
+              <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+              <script type="text/javascript">
+                new TradingView.widget(
+                  {
+                    "width": 500,
+                    "height": 400,
+                    "symbol": "<%= resultSuper.exchangeShortName%>:<%=resultSuper.symbol%>",
+                    "interval": "D",
+                    "timezone": "Etc/UTC",
+                    "theme": "light",
+                    "style": "1",
+                    "locale": "en",
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "allow_symbol_change": true,
+                    "container_id": "tradingview_c8cd5"
+                  }
+                );
+              </script>
+            </div> -->
+            <!-- TradingView Widget END -->
           </li>
         </ul>
 
-        <!-- TradingView Widget BEGIN -->
-        <div class="tradingview-widget-container">
-          <div id="tradingview_c8cd5"></div>
-          <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/"
-              rel="noopener" target="_blank"><span class="blue-text">Chart</span></a> by TradingView</div>
-          <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-          <script type="text/javascript">
-            new TradingView.widget(
-              {
-                "width": 500,
-                "height": 400,
-                "symbol": "<%= resultSuper.exchangeShortName%>:<%=resultSuper.symbol%>",
-                "interval": "D",
-                "timezone": "Etc/UTC",
-                "theme": "light",
-                "style": "1",
-                "locale": "en",
-                "toolbar_bg": "#f1f3f6",
-                "enable_publishing": false,
-                "allow_symbol_change": true,
-                "container_id": "tradingview_c8cd5"
-              }
-            );
-          </script>
-        </div>
-        <!-- TradingView Widget END -->
       </section>
 
     </div>
