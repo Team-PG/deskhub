@@ -35,10 +35,6 @@ button {
   border: none;
 }
 
-.center > ul {
-  width: 80% !important;
-}
-
 p {
   line-height: 18px;
 }
