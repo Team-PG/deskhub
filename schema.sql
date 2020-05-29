@@ -17,7 +17,7 @@ CREATE TABLE locations (
   id SERIAL PRIMARY KEY,
   location VARCHAR(255),
   userid INT NOT NULL,
-  FOREIGN KEY (userid) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (userid) REFERENCES users(id)
 );
 
 CREATE TABLE tasks (
@@ -38,7 +38,7 @@ CREATE TABLE weather (
   sunset VARCHAR(255),
   timestamp INT,
   locid INT NOT NULL,
-  FOREIGN KEY (locid) REFERENCES locations(id) ON DELETE CASCADE
+  FOREIGN KEY (locid) REFERENCES locations(id)
 );
 
 CREATE TABLE IF NOT EXISTS
@@ -49,4 +49,5 @@ stocksSaved(
 
 SELECT * FROM locations JOIN users ON locations.userid = users.id;
 SELECT * FROM weather JOIN locations on weather.locid = locations.id;
+SELECT * FROM tasks JOIN users on tasks.userid = users.id;
 

@@ -34,9 +34,9 @@ app.use(methodOverride('_overrideMethod'));
 // Routes
 app.set('view engine', 'ejs');
 
-app.get('/', renderHome);
+app.get('/home', renderHome);
 
-app.get('/login', (req, res) => res.render('pages/login'));
+app.get('/', (req, res) => res.render('pages/login'));
 
 app.get('/tasks', (req, res) => {
   getUser(app.get('username')).then((user) => {
@@ -46,7 +46,7 @@ app.get('/tasks', (req, res) => {
       res.json(data.rows);
     }).catch((error) => {
       console.error(error);
-    })
+    });
   });
 });
 
@@ -113,8 +113,7 @@ function getQuote() {
 }
 
 function renderHome (req, res) {
-  if (!app.get('username')) res.redirect('/login');
-  else getQuote().then((randomQuote) => {
+  getQuote().then((randomQuote) => {
     res.render('pages/index', { randomQuote , 'username' : app.get('username')});
   });
 }
@@ -136,7 +135,7 @@ function deleteAccount (req, res) {
   const sqlDelete = `DELETE FROM users WHERE id=$1`;
   const sqlVal = [app.get('userId')];
   client.query(sqlDelete, sqlVal)
-    .then(() => res.redirect('/login'))
+    .then(() => res.redirect('/'))
     .catch(err => console.error(err));
 }
 
@@ -147,12 +146,12 @@ function handleLogin(req, res) {
 function getUser(userName) {
   const getUser = `SELECT * FROM users WHERE username=$1 LIMIT 1`;
   return client.query(getUser, [userName])
-  .then((data) => {
-    return data.rows[0];
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+    .then((data) => {
+      return data.rows[0];
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 function returningUser(req,res) {
@@ -169,9 +168,9 @@ function returningUserCheck(result,req,res) {
     app.set('username', username);
     const getUserId = `SELECT location FROM locations INNER JOIN users ON locations.userid=users.id WHERE users.username=${username}`;
     client.query(getUserId).then(result => app.set('location', result.rows[0]));
-    res.redirect('/');
+    res.redirect('/home');
   } else {
-    res.redirect('/login');
+    res.redirect('/');
   }
 }
 
@@ -194,7 +193,7 @@ function userTableInsert (req, res) {
       const locVals = [req.body.location, userId];
       app.set('userId', userId);
       client.query(locQuery, locVals);
-    }).then(res.redirect('/'));
+    }).then(res.redirect('/home'));
 }
 
 
@@ -213,7 +212,7 @@ function displaySearchStocks(req, res) {
 
   superagent.get(url).query(superQuery).then(resultSuper => {
 
-    res.render('pages/stocks/stocks', { 'resultSuper': resultSuper.body })
+    res.render('pages/stocks/stocks', { 'resultSuper': resultSuper.body });
 
   });
 }
@@ -243,10 +242,10 @@ app.post('/saveStock', sqlSaveStocks)
 function sqlSaveStocks(req, res) {
 
   const sqlSaveIntoStocks = 'INSERT INTO stockssaved (symbol) VALUES ($1)';
-  const sqlStocksValues = [req.body.symbol]
+  const sqlStocksValues = [req.body.symbol];
 
   client.query(sqlSaveIntoStocks, sqlStocksValues)
-    .then(result => res.redirect('stocks'))
+    .then(result => res.redirect('stocks'));
 }
 
 function displayTrackedStocks(req, res) {

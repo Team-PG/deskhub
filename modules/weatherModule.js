@@ -37,7 +37,7 @@ function getWeather(req, res) {
               .then(() => setNewSql(req,res));
           });
       } else {
-        res.render('pages/weather', {weather : result.rows});
+        res.render('pages/weather/weather', {weather : result.rows});
       }
     });
 }
