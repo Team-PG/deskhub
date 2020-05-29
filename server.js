@@ -175,7 +175,7 @@ function returningUserCheck(result,req,res) {
         app.set('userId', currId);
         const getUserLoc = `SELECT location FROM locations WHERE userid=$1`;
         const locVals = [currId];
-        client.query(getUserLoc, locVals).then(loc => app.set('location', loc.rows[0]));
+        client.query(getUserLoc, locVals).then(loc => app.set('location', loc.rows[0].location));
       })
       .catch(error => console.error(error));
     res.redirect('/home');
