@@ -41,11 +41,10 @@ CREATE TABLE weather (
   FOREIGN KEY (locid) REFERENCES locations(id)
 );
 
-CREATE TABLE IF NOT EXISTS
-stocksSaved(
+CREATE TABLE IF NOT EXISTS stocksSaved(
   id SERIAL PRIMARY KEY,
   symbol VARCHAR(255)
-)
+);
 
 SELECT * FROM locations JOIN users ON locations.userid = users.id;
 SELECT * FROM weather JOIN locations on weather.locid = locations.id;

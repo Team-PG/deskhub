@@ -25,6 +25,3 @@ $(() => {
   });
 
 });
-
-// TODO:
-// Update/save results from login form to local storage

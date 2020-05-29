@@ -20,7 +20,6 @@ const getNews = require('./modules/newsModules.js');
 const getHeadlineNews = getNews.newsHeadline;
 const getNewsSearch = getNews.newsSearch;
 
-
 // Config
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', console.error);
@@ -29,7 +28,6 @@ client.connect();
 app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_overrideMethod'));
-
 
 // Routes
 app.set('view engine', 'ejs');
@@ -58,7 +56,7 @@ app.post('/tasks', (req, res) => {
       res.json(data.rows[0]);
     }).catch((error) => {
       console.error(error);
-    })
+    });
   });
 });
 
@@ -70,7 +68,7 @@ app.delete('/tasks/:id', (req, res) => {
       res.json({});
     }).catch((error) => {
       console.error(error);
-    })
+    });
   });
 });
 
@@ -238,10 +236,10 @@ function displaySingleStock(req, res) {
     });
 }
 
-app.post('/saveStock', sqlSaveStocks)
+app.post('/saveStock', sqlSaveStocks);
 function sqlSaveStocks(req, res) {
 
-  const sqlSaveIntoStocks = 'INSERT INTO stockssaved (symbol) VALUES ($1)';
+  const sqlSaveIntoStocks = 'INSERT INTO stocksSaved (symbol) VALUES ($1)';
   const sqlStocksValues = [req.body.symbol];
 
   client.query(sqlSaveIntoStocks, sqlStocksValues)
@@ -249,31 +247,31 @@ function sqlSaveStocks(req, res) {
 }
 
 function displayTrackedStocks(req, res) {
-  const sqlQuery = 'SELECT symbol FROM stockssaved';
+  const sqlQuery = 'SELECT symbol FROM stocksSaved';
   client.query(sqlQuery)
-  .then(sqlRes => {
-    const savedArr = [];
-    
-    sqlRes.rows.forEach(curr => {
-      const apiKey = process.env.STOCKS_API_KEY;
-      const symbol = curr.symbol;
-      const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
-      const superQuery = {
-        apikey: apiKey,
-      };
-      
-      savedArr.push(superagent.get(url).query(superQuery)
-      .then(resultSuper => {
-        return resultSuper.body
-        })
-        .catch(error => {
-          res.redirect('pages/stocks/stocksError')
-        }));
-      })
-      Promise.all(savedArr).then(result =>  {
-     
-      res.render('pages/stocks/trackedStocks', {'sqlSaved': result})
-      })
+    .then(sqlRes => {
+      const savedArr = [];
+
+      sqlRes.rows.forEach(curr => {
+        const apiKey = process.env.STOCKS_API_KEY;
+        const symbol = curr.symbol;
+        const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
+        const superQuery = {
+          apikey: apiKey,
+        };
+
+        savedArr.push(superagent.get(url).query(superQuery)
+          .then(resultSuper => {
+            return resultSuper.body;
+          })
+          .catch(error => {
+            res.redirect('pages/stocks/stocksError');
+          }));
+      });
+      Promise.all(savedArr).then(result => {
+
+        res.render('pages/stocks/trackedStocks', {'sqlSaved': result});
+      });
     })
     .catch(error => console.error(error));
 }
@@ -282,7 +280,7 @@ function displayTrackedStocks(req, res) {
 app.post('/stocksShow', displaySingleStock);
 
 
-app.get('/trackedStocks', displayTrackedStocks)
+app.get('/trackedStocks', displayTrackedStocks);
 
 
 
