@@ -30,6 +30,7 @@ app.use(express.static('./public'));
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_overrideMethod'));
 
+
 // Routes
 app.set('view engine', 'ejs');
 
@@ -93,6 +94,7 @@ function updateAccount (req, res) {
   client.query(sqlUpdate, updateValues)
     .then(res.redirect('/'));
 }
+
 
 function deleteAccount (req, res) {
   const sqlDelete = `DELETE FROM users WHERE id=$1`;
@@ -164,11 +166,12 @@ function displaySearchStocks(req, res) {
 
   superagent.get(url).query(superQuery).then(resultSuper => {
 
-    res.render('pages/stocks/stocks', {'resultSuper': resultSuper.body});
+    res.render('pages/stocks/stocks', { 'resultSuper': resultSuper.body })
+
   });
 }
 
-function displayStocksError (req, res) {
+function displayStocksError(req, res) {
 
 }
 
@@ -182,14 +185,60 @@ function displaySingleStock(req, res) {
 
   superagent.get(url).query(superQuery)
     .then(resultSuper => {
-      res.render('pages/stocks/stocksShow', {'resultSuper': resultSuper.body[0]});
+      res.render('pages/stocks/stocksShow', { 'resultSuper': resultSuper.body[0] });
     })
     .catch(error => {
       res.redirect('pages/stocks/stocksError');
     });
 }
 
+app.post('/saveStock', sqlSaveStocks)
+function sqlSaveStocks(req, res) {
+
+  const sqlSaveIntoStocks = 'INSERT INTO stockssaved (symbol) VALUES ($1)';
+  const sqlStocksValues = [req.body.symbol]
+
+  client.query(sqlSaveIntoStocks, sqlStocksValues)
+    .then(result => res.redirect('stocks'))
+}
+
+function displayTrackedStocks(req, res) {
+  const sqlQuery = 'SELECT symbol FROM stockssaved';
+  client.query(sqlQuery)
+  .then(sqlRes => {
+    const savedArr = [];
+    
+    sqlRes.rows.forEach(curr => {
+      const apiKey = process.env.STOCKS_API_KEY;
+      const symbol = curr.symbol;
+      const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
+      const superQuery = {
+        apikey: apiKey,
+      };
+      
+      savedArr.push(superagent.get(url).query(superQuery)
+      .then(resultSuper => {
+        return resultSuper.body
+        })
+        .catch(error => {
+          res.redirect('pages/stocks/stocksError')
+        }));
+      })
+      Promise.all(savedArr).then(result =>  {
+     
+      res.render('pages/stocks/trackedStocks', {'sqlSaved': result})
+      })
+    })
+    .catch(error => console.error(error));
+}
+
+
 app.post('/stocksShow', displaySingleStock);
+
+
+app.get('/trackedStocks', displayTrackedStocks)
+
+
 
 /* ================================================*/
 

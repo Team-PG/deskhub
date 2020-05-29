@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/styles/layout.css">
   <link rel="stylesheet" href="/styles/modules.css">
   <link rel="stylesheet" href="/styles/modules/jobs.css">
+  <link rel="stylesheet" href="/styles/modules/stocks.css">
 
 </head>
 <body>
@@ -23,17 +24,19 @@
           <h2>Search Stock Quotes<br>(By Company Symbol)</h2>
           <input type="text"  name="searchStock" placeholder="Ex. AAPL for Apple">
           <button>Search</button>
+          <br>
+          <a href="/trackedStocks"><button type="button">View Tracked Companies</button></a>
         </form>
       </section>
       <ul>
         <h1>MOST ACTIVE STOCKS</h1>
           <% for (let i = 0; i < resultSuper.length; i++) { %>
             <li>
-              <h1><%= resultSuper[i].ticker %></h1>
-              <h1><%= resultSuper[i].changes %></h1>
-              <h1><%= resultSuper[i].price %></h1>
-              <h1><%= resultSuper[i].changesPercentage %></h1>
-              <h1><%= resultSuper[i].companyName %></h1>
+              <h1>Comapany Name: <%= resultSuper[i].companyName %></h1>
+              <h1>Symbol: <%= resultSuper[i].ticker %></h1>
+              <h1>Price Change: <%= resultSuper[i].changes %></h1>
+              <h1>Price: <%= resultSuper[i].price %></h1>
+              <h1>% Change: <%= resultSuper[i].changesPercentage %></h1>
             </li>
           <% } %>
         </ul>

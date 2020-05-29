@@ -1,0 +1,27 @@
+.stockList {
+  width: auto;
+}
+
+.singleStock {
+  display: flex;
+  flex-direction: row;
+}
+
+.stockLogo {
+  width: 35%;
+}
+
+.stockInfo {
+  width: 65%;
+}
+
+.tradingview-widget-container {
+  visibility: hidden;
+}
+
+@media screen and (min-width: 800px)  {
+
+  .tradingview-widget-container {
+    visibility: visible;
+  }
+}
