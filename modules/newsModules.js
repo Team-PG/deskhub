@@ -35,12 +35,12 @@ function getNewsSearch(req, res){
     .query(queryParams)
     .then(result => {
       const newNews = result.body.results.map(obj => new NewsHeadline(obj));
-  res.render('pages/news/search', {'news': newNews});
+      res.render('pages/news/search', {'news': newNews});
     })
     .catch(error =>{
-    res.send(error).status(500);
-    console.log(error);
-  });
+      res.send(error).status(500);
+      console.log(error);
+    });
 }
 
 function NewsHeadline(obj){

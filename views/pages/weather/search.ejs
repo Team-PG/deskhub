@@ -17,28 +17,10 @@
   <%- include("../../layout/header.ejs", {'index' : false}) %>
 
   <div id='wrapper'>
-    <div id='center' class="center">
+    <div class="center">
       <button id="backToWeather">Return to Local Weather</button>
 
-      <ul>
-        <% weather.forEach(day => { %>
-          <li>
-            <h2>Date : <%= day.weatherTime %></h2>
-            <p>Forecast : <%= day.forecast %></p>
-            <% if (day.forecast.includes('clouds')) { %>
-              <i class="fas fa-cloud fa-2x"></i>
-            <% } else if (day.forecast.includes('rain')) { %>
-              <i class="fas fa-cloud-rain fa-2x"></i>
-            <% }else if (day.forecast.includes('storm')) { %>
-              <i class="fas fa-cloud-showers-heavy fa-2x"></i>
-            <% } else { %>
-              <i class="fas fa-sun fa-2x"></i>
-            <% } %>
-            <p>Average Temp: <%= day.avg %> &deg;F<br>High: <%= day.high %> &deg;F<br>Low: <%= day.low %> &deg;F</p>
-            <p>Sunrise at: <%= day.sunrise %><br>Sunset at: <%= day.sunset %></p>
-          </li>
-        <% }) %>
-      </ul>
+      <%- include("../../layout/weatherPartial.ejs") %>
       
     </div>
   </div>

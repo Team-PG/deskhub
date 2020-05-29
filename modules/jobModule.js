@@ -19,7 +19,7 @@ function standardJobs(req, res) {
     .then(result => {
       const jobArr = result.body.map(val => new JobCon(val));
       res.render('pages/jobs/jobs', {'jobArr' : jobArr});
-    });
+    }).catch(error => console.error(error));
 }
 
 function searchJobs(req, res){

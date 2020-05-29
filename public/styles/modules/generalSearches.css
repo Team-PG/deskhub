@@ -39,7 +39,7 @@ p {
   line-height: 18px;
 }
 
-#center > section {
+.center > section {
   padding-top: 10px;
   padding-bottom: 10px;
 }
