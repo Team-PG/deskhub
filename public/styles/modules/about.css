@@ -1,0 +1,51 @@
+img {
+  border-radius: 50%;
+  float: left;
+  shape-outside: circle;
+  height: 150px;
+  margin: 5px;
+}
+
+section {
+  padding: 15px 20px;
+}
+
+.personalBioSec {
+  height: 100px;
+}
+
+.websiteBioSec > h1 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.center {
+  display: flex;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 90%;
+}
+
+@media screen and (min-width: 500px){
+  
+}
+
+@media screen and (min-width: 900px){
+  .center {
+    width: 700px;
+  }
+}
+
+.center > * {
+  margin: 0 20px;
+}
+
+
+h2 {
+  margin-bottom: 20px;
+}
+
+/* p {
+  overflow: auto;
+} */
