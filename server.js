@@ -251,31 +251,30 @@ function sqlSaveStocks(req, res) {
 
 function displayTrackedStocks(req, res) {
   const sqlQuery = 'SELECT symbol FROM stockssaved WHERE userid = $1';
-  const sqlVal = [app.get('userId')]
+  const sqlVal = [app.get('userId')];
   client.query(sqlQuery, sqlVal)
-  .then(sqlRes => {
-    const savedArr = [];
-    
-    sqlRes.rows.forEach(curr => {
-      const apiKey = process.env.STOCKS_API_KEY;
-      const symbol = curr.symbol;
-      const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
-      const superQuery = {
-        apikey: apiKey,
-      };
-      
-      savedArr.push(superagent.get(url).query(superQuery)
-      .then(resultSuper => {
-        return resultSuper.body
-        })
-        .catch(error => {
-          res.redirect('pages/stocks/stocksError')
-        }));
-      })
-      Promise.all(savedArr).then(result =>  {
-     
-      res.render('pages/stocks/trackedStocks', {'sqlSaved': result})
-      })
+    .then(sqlRes => {
+      const savedArr = [];
+
+      sqlRes.rows.forEach(curr => {
+        const apiKey = process.env.STOCKS_API_KEY;
+        const symbol = curr.symbol;
+        const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
+        const superQuery = {
+          apikey: apiKey,
+        };
+
+        savedArr.push(superagent.get(url).query(superQuery)
+          .then(resultSuper => {
+            return resultSuper.body;
+          })
+          .catch(error => {
+            res.redirect('pages/stocks/stocksError')
+          }));
+      });
+      Promise.all(savedArr).then(result => {
+        res.render('pages/stocks/trackedStocks', {'sqlSaved': result});
+      });
 
     })
     .catch(error => console.error(error));
