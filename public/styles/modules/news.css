@@ -1,5 +1,4 @@
 fieldset {
-  /* height: 50%; */
   width: 60%;
   padding-top: 30px;
   margin-left: auto;
@@ -17,10 +16,6 @@ form > fieldset > legend {
 }
 
 fieldset > div > label{
-  /* padding-left: 10%;
-  text-align: left; */
-  /* margin-left: 25%; */
-  /* margin-right: auto; */
   width: 53%;
   text-align: left;
 }
@@ -41,13 +36,12 @@ fieldset > div > div > input {
   margin-bottom: 5%;
 }
 
-#center > ul > li {
+.center > ul > li {
   padding: 15px 0px 20px 0px;
   border: 1px solid black;
-  /* padding-bottom: 20px; */
 }
 
-#center ul {
+.center ul {
   width: 80% !important;
 }
 
@@ -56,11 +50,11 @@ fieldset > div > div > input {
   font-size: large;
 }
 
-#center form {
+.center form {
   width: 80% !important;
 }
 
-#center p {
+.center p {
   width: 80% !important;
   margin-left: auto;
   margin-right: auto;
@@ -81,7 +75,6 @@ nav > a {
 
 form > fieldset > div {
   display: flex;
-  /* flex-direction: column; */
   margin-left: auto;
   margin-right: auto;
   max-width: 350px;
@@ -90,18 +83,14 @@ form > fieldset > div {
 }
 
 @media (min-width: 960px){
-  #center > ul  {
+  .center > ul  {
     display: flex;
     flex-wrap: wrap;
   }
 
-  #center > ul > li {
+  .center > ul > li {
     width: 30%;
     margin-left: 2.5%;
     margin-top: 10px;
   }
-
-  /* #center > ul > li:nth-child(){
-    padding-left: 1.5%;
-  } */
 }

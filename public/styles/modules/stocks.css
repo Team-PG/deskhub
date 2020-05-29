@@ -25,12 +25,9 @@ img {
 
 
 @media screen and (min-width: 1000px)  {
-.center > ul {
-  width: 80% !important;
-}
-
-
-@media screen and (min-width: 800px)  {
+  .center > ul {
+    width: 80% !important;
+  }
   .tradingview-widget-container {
     display: block;
   }

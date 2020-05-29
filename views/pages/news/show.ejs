@@ -16,21 +16,10 @@
 <body>
   <%- include("../../layout/header.ejs", {'index' : false}) %>
   <div>
-    <section id="center">
+    <section class="center">
             <a href="/news">Pick a new category</a>
-            <ul>
-        <% news.forEach(val => { %>
-            <li>
-              <h2><%= val.title %></h2>
-              <br>
-              <h2><%= val.byline %></h2>
-              <br>
-              <p><%= val.abstract %></p>
-              <br>
-              <a href="<%= val.url %>">See Full Article</a>
-            </li>
-        <% }) %>
-      </ul>
+            <%- include("../../layout/newsPartial.ejs", {'main' : false}) %>
+
     </section>
   </div>
   <script src="/app.js"></script>

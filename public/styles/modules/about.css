@@ -27,8 +27,8 @@ section {
   width: 90%;
 }
 
-@media screen and (min-width: 500px){
-
+.websiteBioSec {
+  margin: 0 auto !important;
 }
 
 @media screen and (min-width: 900px){

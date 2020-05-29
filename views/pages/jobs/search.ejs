@@ -22,24 +22,8 @@
   <div id='wrapper'>
     <div id='center' class="center">
       <button id="backToJobs">Return to All Local Jobs</button>
+      <%- include("../../layout/jobsPartial.ejs") %>
 
-      <ul>
-        <% jobArr.forEach((job, i) => { %>
-          <li>
-            <h1>Company: <%= job.company %></h1>
-            <h2>Job Title: <%= job.title %></h2>
-            <p>Location : <%= job.location %></p>
-            <p>Job Type: <%= job.type %></p>
-            <a href="<%= job.url %>">View Posting</a>
-            <button id="viewJobDesc<%=i%>">View Full Description</button>
-            <p class="jobDescription" id="jobDesc<%=i%>"><%= job.description %></p>
-            <p>Posted on: <%= job.createdOn %></p>
-          </li>
-        <% }) %>
-        <% if (!jobArr.length) { %>
-          <h1>We can't find any developer jobs for your search, sorry!</h1>
-        <% } %>
-      </ul>
     </div>
   </div>
   <script src="/app.js"></script>

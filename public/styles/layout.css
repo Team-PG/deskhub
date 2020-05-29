@@ -6,13 +6,13 @@ nav {
   height: 60px;
 }
 
-#center > * {
+.center > * {
   width: 300px;
   text-align: center;
   border-radius: 12px;
 }
 
-#center > p {
+.center > p {
   padding: 10px 15px;
 }
 
@@ -20,7 +20,7 @@ nav {
   display: none;
 }
 
-#center > section > div:nth-child(1) {
+.center > section > div:nth-child(1) {
   display: flex;
   height: fit-content;
   border: solid black;
@@ -31,11 +31,11 @@ section > div > div {
   padding: 8px 15px;
 }
 
-#center > section > div > div:nth-child(2) {
+.center > section > div > div:nth-child(2) {
   margin: auto;
 }
 
-#center {
+.center {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -44,12 +44,12 @@ section > div > div {
   align-self: flex-start;
 }
 
-#center > section {
+.center > section {
   margin-bottom: 25px;
   height: fit-content;
 }
 
-#center #theme-container {
+.center #theme-container {
   position: fixed;
   bottom: 0;
   width: fit-content;
@@ -250,7 +250,7 @@ ul {
   transform: rotate(45deg) translate(-2px, -1px);
 }  
 
-#center > section > div:nth-child(1) {
+.center > section > div:nth-child(1) {
   display: flex;
 }
 
@@ -295,23 +295,6 @@ ul {
 
 @media screen and (min-width:900px){
 
-  /* .widgetTray {
-    display: block;
-  }
-  
-  #center > section {
-    height: 500px;
-  }
-
-  #center > section > div:nth-child(2){
-    height:100px;
-  }
-
-  .widgDiv {
-    margin: 0 10px;
-    width:30%;
-  } */
-
   #hamburgerToggle {
     visibility: hidden;
   }
@@ -322,26 +305,5 @@ ul {
     width: 320px;
   }
   
-  /* #hamburgerToggle input:checked ~ #widgetBar{
-    visibility: visible;
-  }
-
-  .widgetTray > li {
-    background-color: blue;
-    height: 200px;
-    overflow:auto;
-    margin-top: 20px;
-  }
-
-  #center {
-    margin-top: 20px;
-    width:20%;
-  }
-  
-  #wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 2%;
-  }*/
 }
 

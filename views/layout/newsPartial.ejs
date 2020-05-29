@@ -1,0 +1,16 @@
+<ul>
+  <% if (main) { %>
+    <p class="topHeadlines">Top Headlines</p>
+  <% } %>
+<% news.forEach(val => { %>
+    <li>
+      <h2><%= val.title %></h2>
+      <br>
+      <h2><%= val.byline %></h2>
+      <br>
+      <p><%= val.abstract %></p>
+      <br>
+      <a href="<%= val.url %>" target="_blank">See Full Article</a>
+    </li>
+<% }) %>
+</ul>
