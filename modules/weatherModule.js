@@ -77,7 +77,25 @@ function handleSuper(req,res, result) {
         console.error(error);
       });
   });
-  res.render('pages/weather', {weather : newWeather});
+  res.render('pages/weather/weather', {weather : newWeather});
 }
 
-module.exports = getWeather;
+function searchWeather(req, res){
+  const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
+  const queryParams = {
+    key : process.env.WEATHER_API_KEY,
+    city : req.body.searchCity,
+    days : 7,
+  };
+  superagent.get(apiUrl)
+    .query(queryParams)
+    .then(result => {
+      const newWeather = result.body.data.map(obj => new Weather(obj));
+      res.render('pages/weather/search', {'weather' : newWeather});
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+module.exports = {localWeather : getWeather, 'searchWeather' : searchWeather};
