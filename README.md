@@ -8,7 +8,7 @@
 
 
 ## Domain Model
-![Domain Model](/assets/images/Domain.png)
+![Domain Model](assets/images/Domain.png)
 
 ## Database ERD:
 ![Database ERD](/assets/DB-ERD.png)
@@ -16,3 +16,4 @@
 ## Credits:
 Photos from UnSplash
 Photo Credits: Paweł Czerwiński, Josiah Day, Jeremy Thomas, Kalen Emsley
+Special Thanks to: Nicholas Carignan, Chance Harmon
