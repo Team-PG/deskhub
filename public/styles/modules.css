@@ -1,37 +1,91 @@
-nav {
-  background-color: rgba(54, 100, 72, 0.85);
+/* variables for themes */
+
+:root, :root.theme-nature {
+  --background-image: url('/assets/backgrounds/nature.jpeg');
+  --color: rgba(50, 121, 174, 0.85);
+}
+
+:root.theme-space {
+  --background-image: url('/assets/backgrounds/space.jpeg');
+  --color: rgba(1, 26, 70, 0.85);
+}
+
+:root.theme-paint {
+  --background-image: url('/assets/backgrounds/paint.jpeg');
+  --color: rgba(114, 179, 213, 0.85);
+}
+
+:root.theme-sports {
+  --background-image: url('/assets/backgrounds/sports.jpeg');
+  --color: rgba(93, 47, 39, 0.85);
+}
+
+body {
+  background-image: var(--background-image);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  font-family: monospace;
   color: white;
 }
 
+/* Nav */
+
+nav {
+  background-color: var(--color);
+}
+
+nav > h1 {
+  Font-size: 22px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+#home-btn {
+  text-decoration: none;
+  color: white;
+  font-size: 22px;
+}
 
 #center > * {
   border: 1px solid black;
-  background-color: rgba(54, 100, 72, 0.85);
+  background-color: var(--color);
 }
 
 #center > p {
   font-size:18px;
-  color: white;
+}
+
+#center > section {
+  background-color: var(--color);
+}
+
+#todoItems {
+  border-radius: 10px;
+  height: fit-content;
+  max-height: 160px;
 }
 
 #todoItems li {
   background: rgb(224, 224, 224);
   font-size: 18px;
+  color: black;
 }
 
-/* Different colors on odd items */
-#todoItems li:nth-child(odd) {
-  background: #f9f9f9;
+#time {
+  border: solid black;
+  border-width: 0 2px 0 0;
 }
 
 #todoItems li:hover {
   background: rgb(100, 91, 91);
-  color: white;
 }
 
 #todoItems li.checked {
   background: #888;
-  color: #fff;
   text-decoration: line-through;
 }
 
@@ -41,8 +95,8 @@ nav {
 }
 
 #widgetBar > label > a > li  {
-  color: white;
   transition: color 0.35s ease-in-out;
+  color: white;
 }
 
 #widgetBar > label > a > li:hover, .colorPageWidget {
@@ -60,4 +114,21 @@ nav {
 
 .center > p {
   padding: 6px 12px;
+}
+
+.clear:hover {
+  background-color: #f44336;
+}
+
+.header {
+  padding: 0 20px 10px;
+  text-align: center;
+}
+
+.addBtn:hover {
+  background-color: #bbb;
+} 
+
+#theme-selector {
+  color: rgb(75, 70, 70);
 }

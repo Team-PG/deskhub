@@ -1,26 +1,9 @@
-body {
-  background-image: url('https://cdn.thecrazytourist.com/wp-content/uploads/2018/06/ccimage-shutterstock_354965186.jpg');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  background-size: cover;
-  font-family: monospace;
-}
-
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
   height: 60px;
-}
-
-nav > h1 {
-  Font-size: 22px;
-}
-
-h2 {
-  font-size: 20px;
 }
 
 #center > * {
@@ -52,25 +35,24 @@ section > div > div {
   margin: auto;
 }
 
-#time {
-  width: fit-content;
-  border: solid black;
-  border-width: 0 2px 0 0;
-}
-
 #center {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 20px auto;
-  align-self:flex-start;
+  align-self: flex-start;
 }
 
 #center > section {
-  background-color: rgba(54, 100, 72, 0.85);
   margin-bottom: 25px;
   height: fit-content;
+}
+
+#center #theme-container {
+  position: fixed;
+  bottom: 0;
+  width: fit-content;
 }
 
 /* SIGN IN PAGE RADIOS */
@@ -111,60 +93,9 @@ input[type="radio"] {
   margin-right: 15px;
 }
 
-
-
-/*
-#signInForm > label {
-  display: flex;
-  flex-direction: column;
+#todo {
+  padding-bottom: 10px;
 }
-
-.radio {
-  cursor: pointer;
-  line-height: 20px;
-  font-size: 14px;
-  margin: 15px;
-}
-.radio .label {
-  display: block;
-  float: left;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #c8ccd4;
-  border-radius: 100%;
-  -webkit-tap-highlight-color: transparent;
-}
-.radio .label:after {
-  content: '';
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  background: #225cff;
-  transform: scale(0);
-  transition: all 0.2s ease;
-  opacity: 0.08;
-  pointer-events: none;
-}
-.radio:hover .label:after {
-  transform: scale(3.6);
-}
-input[type="radio"]:checked + .label {
-  border-color: #225cff;
-}
-input[type="radio"]:checked + .label:after {
-  transform: scale(1);
-  transition: all 0.2s cubic-bezier(0.35, 0.9, 0.4, 0.9);
-  opacity: 1;
-}
-.center {
-  text-align: center;
-}
-.hidden {
-  display: none;
-} */
-
-
-
 
 #todo > div > * {
   margin-bottom: 20px;
@@ -216,17 +147,6 @@ ul {
   padding: 12px 16px 12px 16px;
 }
 
-.clear:hover {
-  background-color: #f44336;
-  color: white;
-}
-
-/* Style the header */
-.header {
-  padding: 0 20px 10px;
-  color: white;
-  text-align: center;
-}
 
 /* Clear floats after the header */
 .header:after {
@@ -244,7 +164,6 @@ ul {
 #newTask {
   margin: 0;
   border: none;
-  border-radius: 0;
   width: 75%;
   padding: 10px;
   float: left;
@@ -256,7 +175,6 @@ ul {
   padding: 10px;
   width: 25%;
   border: none;
-  border-radius: 0;
   background: #d9d9d9;
   color: #555;
   float: left;
@@ -264,8 +182,8 @@ ul {
   font-size: 16px;
   cursor: pointer;
   transition: 0.3s;
-  border-radius: 0;
 }
+
 
 /* END OF TODO LIST STYLES */
 
@@ -282,8 +200,6 @@ ul {
   right: 60px;
 }
 
-
-
 /* Toggling the widgets: */
 .widgetOff {
   display: none;
@@ -293,25 +209,19 @@ ul {
   display: block;
 }
 
-
-
 #hamburgerToggle {
   display: block;
   position: relative;
   top: 5px;
 }
 
-
-#hamburgerToggle input
-{
+#hamburgerToggle input {
   display: block;
   width: 40px;
   height: 32px;
   position: absolute;
   top: -5px;
-  
   cursor: pointer;
-  
   opacity: 0; /* hide this */
   z-index: 2; /* and place it over the hamburger */
 }
@@ -324,8 +234,6 @@ ul {
   position: relative;
   border-radius:3px;
   transform-origin: 4px 0px;
-
-
   transition: transform 0.5s;
 }
 
@@ -340,14 +248,18 @@ ul {
 /* Turn the top + bottom spans /s */
 #hamburgerToggle input:checked ~ span {
   transform: rotate(45deg) translate(-2px, -1px);
-}  #center > section > div:nth-child(1) {
+}  
+
+#center > section > div:nth-child(1) {
   display: flex;
 }
+
 /* Make middle one invisible */
 #hamburgerToggle input:checked ~ span:nth-last-child(3) {
   opacity: 0;
   transform: rotate(0deg) scale(0.2, 0.2);
 }
+
 /* Flip the bottom one so it goes the other direction, making an X */
 #hamburgerToggle input:checked ~ span:nth-last-child(2) {
   transform: rotate(-45deg) translate(0, -1px);
@@ -366,27 +278,20 @@ ul {
 }
 /* END HAM MENU */
 
-
-/* Scrollbar: */
-::-webkit-scrollbar {
-  width: 12.5px;
+#username > a {
+  color: white;
+  margin-top: 8px;
 }
 
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgb(255, 255, 255); 
-  border-radius: 5px;
+#username {
+  display: flex;
+  flex-direction: column;
 }
 
-::-webkit-scrollbar-thumb {
-  background: rgba(54, 100, 72, 0.85);
-  border-radius: 5px;
+#updateForm > * {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(21, 155, 72, 0.95);
-}
-
-
 
 @media screen and (min-width:900px){
 
@@ -402,7 +307,6 @@ ul {
     height:100px;
   }
 
-  
   .widgDiv {
     margin: 0 10px;
     width:30%;
@@ -429,7 +333,6 @@ ul {
     margin-top: 20px;
   }
 
-  
   #center {
     margin-top: 20px;
     width:20%;
@@ -439,11 +342,6 @@ ul {
     display: flex;
     justify-content: space-between;
     margin: 0 2%;
-  }
-  
-  .addBtn:hover {
-    background-color: #bbb;
-  } */
-
+  }*/
 }
 

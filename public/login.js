@@ -10,8 +10,9 @@ $(() => {
   $('input[type="radio"]').change(function(){
     $('input[type="submit"]').show();
     $('.saveInfo').show();
-    if ($(this).is(':checked'))
-    {
+    $('input[type="text"]').val('');
+    $('input[type="password"]').val('');
+    if ($(this).is(':checked')) {
       $('.returningUserText').hide();
       $('.newUserText').hide();
       $(`.${this.id}Text`).toggle();
