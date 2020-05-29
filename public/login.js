@@ -31,8 +31,6 @@ $(() => {
     localStorage.setItem('username', returnUser || newUser);
     localStorage.setItem('location', newLoc);
 
-    window.location.href = '/home';
-
   });
 
 });
