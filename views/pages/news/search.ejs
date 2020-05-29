@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>News</title>
   <script src="https://kit.fontawesome.com/94c005aa00.js" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" href="/assets/images/favicon.ico" />
   <link rel="stylesheet" href="/styles/reset.css">
   <link rel="stylesheet" href="/styles/base.css">
   <link rel="stylesheet" href="/styles/layout.css">
@@ -22,77 +23,56 @@
           <fieldset>
             <legend>Pick the category you'd like to see</legend>
             <div>
-            <label for="arts">
-              Arts
-            </label>
               <div>
-              <input type="radio" name="searchType" value="arts">
+                <input type="radio" name="searchType" value="arts">
               </div>
-            <label for="automobiles">
-              Automobiles
-            </label>
+              <label for="arts">Arts</label>
               <div>
-              <input type="radio" name="searchType" value="automobiles">
+                <input type="radio" name="searchType" value="automobiles">
               </div>
-            <label for="business">
-              Business
-            </label>
+              <label for="automobiles">Automobiles</label>
               <div>
-              <input type="radio" name="searchType" value="business">
+                <input type="radio" name="searchType" value="business">
               </div>
-            <label for="health">
-              Health
-            </label>
+              <label for="business">Business</label>
               <div>
-              <input type="radio" name="searchType" value="health">
+                <input type="radio" name="searchType" value="health">
               </div>
-            <label for="movies">
-              Movies
-            </label>
+              <label for="health">Health</label>
               <div>
-              <input type="radio" name="searchType" value="movies">
+                <input type="radio" name="searchType" value="movies">
               </div>
-            <label for="politics">
-              Politics
-            </label>
+              <label for="movies">Movies</label>
               <div>
-              <input type="radio" name="searchType" value="politics">
+                <input type="radio" name="searchType" value="politics">
               </div>
-            <label for="science">
-              Science
-            </label>
+              <label for="politics">Politics</label>
               <div>
-              <input type="radio" name="searchType" value="science">
+                <input type="radio" name="searchType" value="science">
               </div>
-            <label for="sports">
-              Sports
-            </label>
+              <label for="science">Science</label>
               <div>
-              <input type="radio" name="searchType" value="sports">
+                <input type="radio" name="searchType" value="sports">
               </div>
-            <label for="technology">
-              Technology
-            </label>
+              <label for="sports">Sports</label>
               <div>
-              <input type="radio" name="searchType" value="technology">
+                <input type="radio" name="searchType" value="technology">
               </div>
-            <label for="us">
-              US
-            </label>
+              <label for="technology">Technology</label>
               <div>
-              <input type="radio" name="searchType" value="us">
+                <input type="radio" name="searchType" value="us">
               </div>
-            <label for="world">
-              World
-            </label>
+              <label for="us">US</label>
               <div>
-              <input type="radio" name="searchType" value="world">
+                <input type="radio" name="searchType" value="world">
               </div>
-            <input type="submit" value="See News" class="newsSubmit">
+              <label for="world">World</label>
+              <input type="submit" value="See News" class="newsSubmit">
             </div>
           </fieldset>
         </form>
       <ul>
+          <p class="topHeadlines">Top Headlines</p>
         <% news.forEach(val => { %>
             <li>
               <h2><%= val.title %></h2>
@@ -107,8 +87,8 @@
       </ul>
     </section>
   </div>
+  <script src="/news.js"></script>
   <script src="/app.js"></script>
-
   <script src="/theme.js"></script>
 </body>
 
