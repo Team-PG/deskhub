@@ -12,7 +12,7 @@ $(() => {
     const $deleteBtn = $('<span/>', {
       class: 'clear',
       html: '\u00D7',
-    });      
+    });
 
     $deleteBtn.appendTo(newTask);
 
@@ -68,6 +68,7 @@ $(() => {
   $('li#home').addClass('colorPageWidget');
 
   // database
+
 
   function getTasks() {
     return $.get({

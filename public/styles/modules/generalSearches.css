@@ -1,0 +1,58 @@
+
+
+button {
+  display: block;
+  margin: 15px auto;
+
+  border: none;
+  padding: 5px 10px; 
+  background-color: white !important;
+  border-radius: 5px;
+}
+
+.center > ul > li > * {
+  margin-bottom: 15px;
+}
+
+.center > ul > li > a {
+  font-size: 18px;
+  color: white;
+}
+
+.center > ul > li {
+  margin-bottom: 25px;
+  border: solid black;
+  border-width: 0px 0px 2px 0px;
+  word-wrap: break-word;
+}
+
+.center > ul > li:first-child {
+  margin-top: 15px;
+}
+
+.center > ul > li:last-child {
+  margin-bottom: 0px;
+  border: none;
+}
+
+p {
+  line-height: 18px;
+}
+
+#center > section {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.center > form {
+  margin-bottom: 20px;
+  padding: 15px 20px 5px;
+}
+
+.center > form > * {
+  margin-bottom: 10px;
+}
+
+.center > form > label > input {
+  margin-bottom: 10px;
+}

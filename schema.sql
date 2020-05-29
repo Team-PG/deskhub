@@ -41,8 +41,7 @@ CREATE TABLE weather (
   FOREIGN KEY (locid) REFERENCES locations(id)
 );
 
-CREATE TABLE IF NOT EXISTS
-stocksSaved(
+CREATE TABLE stocksSaved(
   id SERIAL PRIMARY KEY,
   symbol VARCHAR(255),
   userid INT NOT NULL,
@@ -51,5 +50,7 @@ stocksSaved(
 
 SELECT * FROM locations JOIN users ON locations.userid = users.id;
 SELECT * FROM weather JOIN locations on weather.locid = locations.id;
-SELECT * FROM stocksSaved JOIN users ON stocksSaved.userid = users.id;
+SELECT * FROM tasks JOIN users on tasks.userid = users.id;
+SELECT * FROM stocksSaved JOIN users on stocksSaved.userid = users.id;
+
 
