@@ -19,9 +19,12 @@ $(() => {
     }
   });
 
+
+
   // Send a request through jquery for the login form with a jquery get or post, do the redirecting for the form in here as well
   $('input[type="submit"]').on('submit', function(e) {
     e.preventDefault();
+    
   });
 
 });

@@ -10,13 +10,14 @@
   <link rel="stylesheet" href="/styles/base.css">
   <link rel="stylesheet" href="/styles/layout.css">
   <link rel="stylesheet" href="/styles/modules.css">
+  <link rel="stylesheet" href="/styles/modules/generalSearches.css">
   <link rel="stylesheet" href="/styles/modules/news.css">
 </head>
 <body>
   <%- include("../../layout/header.ejs", {'index' : false}) %>
   <div>
     <section id="center">
-            <a href="/search">Pick a new category</a>
+            <a href="/news">Pick a new category</a>
             <ul>
         <% news.forEach(val => { %>
             <li>
@@ -32,10 +33,8 @@
       </ul>
     </section>
   </div>
-
-  <script src="/news.js"></script>
-
   <script src="/app.js"></script>
+  <script src="/news.js"></script>
   <script src="/theme.js"></script>
 
 </body>

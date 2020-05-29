@@ -111,7 +111,8 @@ function getQuote() {
 }
 
 function renderHome (req, res) {
-  getQuote().then((randomQuote) => {
+  if (!app.get('username')) res.redirect('/');
+  else getQuote().then((randomQuote) => {
     res.render('pages/index', { randomQuote , 'username' : app.get('username')});
   });
 }
@@ -125,7 +126,7 @@ function updateAccount (req, res) {
   WHERE id=$3`;
   const updateValues = [username, password, app.get('userId')];
   client.query(sqlUpdate, updateValues)
-    .then(res.redirect('/'));
+    .then(res.redirect('/home'));
 }
 
 
@@ -239,16 +240,17 @@ function displaySingleStock(req, res) {
 app.post('/saveStock', sqlSaveStocks);
 function sqlSaveStocks(req, res) {
 
-  const sqlSaveIntoStocks = 'INSERT INTO stocksSaved (symbol) VALUES ($1)';
-  const sqlStocksValues = [req.body.symbol];
+  const sqlSaveIntoStocks = 'INSERT INTO stocksSaved (symbol, userid) VALUES ($1, $2)';
+  const sqlStocksValues = [req.body.symbol, app.get('userId')];
 
   client.query(sqlSaveIntoStocks, sqlStocksValues)
     .then(result => res.redirect('stocks'));
 }
 
 function displayTrackedStocks(req, res) {
-  const sqlQuery = 'SELECT symbol FROM stocksSaved';
-  client.query(sqlQuery)
+  const sqlQuery = 'SELECT symbol FROM stocksSaved WHERE userid=$1';
+  const sqlVals = [app.get('userId')];
+  client.query(sqlQuery, sqlVals)
     .then(sqlRes => {
       const savedArr = [];
 

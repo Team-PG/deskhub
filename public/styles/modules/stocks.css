@@ -19,6 +19,12 @@
   visibility: hidden;
 }
 
+
+.center > ul {
+  width: 80% !important;
+}
+
+
 @media screen and (min-width: 800px)  {
 
   .tradingview-widget-container {

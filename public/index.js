@@ -69,6 +69,7 @@ $(() => {
 
   // database
 
+
   function getTasks() {
     return $.get({
       url: '/tasks'
