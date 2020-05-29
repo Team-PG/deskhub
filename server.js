@@ -19,6 +19,11 @@ const searchWeather = getWeather.searchWeather;
 const getNews = require('./modules/newsModules.js');
 const getHeadlineNews = getNews.newsHeadline;
 const getNewsSearch = getNews.newsSearch;
+const stocksModule = require('./modules/stocksModule.js');
+const displaySearchStocks = stocksModule.displaySearchStocks;
+const sqlSaveStocks = stocksModule.sqlSaveStocks;
+const displaySingleStock = stocksModule.displaySingleStock;
+const displayTrackedStocks = stocksModule.displayTrackedStocks;
 
 // Config
 const client = new pg.Client(process.env.DATABASE_URL);
@@ -36,41 +41,11 @@ app.get('/home', renderHome);
 
 app.get('/', (req, res) => res.render('pages/login'));
 
-app.get('/tasks', (req, res) => {
-  getUser(app.get('username')).then((user) => {
-    const sqlQuery = 'SELECT * FROM tasks WHERE userid = $1';
-    const sqlVals = [user.id];
-    client.query(sqlQuery, sqlVals).then((data) => {
-      res.json(data.rows);
-    }).catch((error) => {
-      console.error(error);
-    });
-  }).catch(error => console.error(error));
-});
+app.get('/tasks', getTasksFromDB);
 
-app.post('/tasks', (req, res) => {
-  getUser(app.get('username')).then((user) => {
-    const sqlQuery = 'INSERT INTO tasks (name, userid) VALUES ($1, $2) RETURNING *';
-    const sqlVals = [req.body.name, user.id];
-    client.query(sqlQuery, sqlVals).then((data) => {
-      res.json(data.rows[0]);
-    }).catch((error) => {
-      console.error(error);
-    });
-  }).catch(error => console.error(error));
-});
+app.post('/tasks', addTasksToDB);
 
-app.delete('/tasks/:id', (req, res) => {
-  getUser(app.get('username')).then((user) => {
-    const sqlQuery = 'DELETE FROM tasks WHERE id = $1 AND userid = $2';
-    const sqlVals = [req.params.id, user.id];
-    client.query(sqlQuery, sqlVals).then((data) => {
-      res.json({});
-    }).catch((error) => {
-      console.error(error);
-    });
-  }).catch(error => console.error(error));
-});
+app.delete('/tasks/:id', deleteTasksFromDB);
 
 app.get('/about', (req, res) => res.render('pages/about'));
 
@@ -93,6 +68,50 @@ app.get('/updateInfo', (req, res) => res.render('pages/updateInfo.ejs'));
 app.put('/accountUpdate', updateAccount);
 
 app.delete('/accountDelete', deleteAccount);
+
+app.get('/stocks', displaySearchStocks);
+
+app.post('/saveStock', sqlSaveStocks);
+
+app.post('/stocksShow', displaySingleStock);
+
+app.get('/trackedStocks', displayTrackedStocks);
+
+function getTasksFromDB(req, res) {
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'SELECT * FROM tasks WHERE userid = $1';
+    const sqlVals = [user.id];
+    client.query(sqlQuery, sqlVals).then((data) => {
+      res.json(data.rows);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }).catch(error => console.error(error));
+}
+
+function addTasksToDB(req,res) {
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'INSERT INTO tasks (name, userid) VALUES ($1, $2) RETURNING *';
+    const sqlVals = [req.body.name, user.id];
+    client.query(sqlQuery, sqlVals).then((data) => {
+      res.json(data.rows[0]);
+    }).catch((error) => {
+      console.error(error);
+    });
+  }).catch(error => console.error(error));
+}
+
+function deleteTasksFromDB(req, res) {
+  getUser(app.get('username')).then((user) => {
+    const sqlQuery = 'DELETE FROM tasks WHERE id = $1 AND userid = $2';
+    const sqlVals = [req.params.id, user.id];
+    client.query(sqlQuery, sqlVals).then(() => {
+      res.json({});
+    }).catch((error) => {
+      console.error(error);
+    });
+  }).catch(error => console.error(error));
+}
 
 function getQuote() {
   const url = 'https://programming-quotes-api.herokuapp.com/quotes/lang/en';
@@ -129,7 +148,6 @@ function updateAccount (req, res) {
     .then(res.redirect('/home'))
     .catch(error => console.error(error));
 }
-
 
 function deleteAccount (req, res) {
   const sqlDelete = `DELETE FROM users WHERE id=$1`;
@@ -207,101 +225,6 @@ function userTableInsert (req, res) {
     }).then(res.redirect('/home'))
     .catch(error => console.error(error));
 }
-
-
-/* ================ Stocks =========================*/
-
-app.get('/stocks', displaySearchStocks);
-
-app.get('/stocksError', displayStocksError);
-
-function displaySearchStocks(req, res) {
-  const apiKey = process.env.STOCKS_API_KEY;
-  const url = `https://financialmodelingprep.com/api/v3/actives`;
-  const superQuery = {
-    apikey: apiKey,
-  };
-
-  superagent.get(url).query(superQuery).then(resultSuper => {
-
-    res.render('pages/stocks/stocks', { 'resultSuper': resultSuper.body });
-
-  });
-}
-
-function displayStocksError(req, res) {
-
-}
-
-function displaySingleStock(req, res) {
-  const apiKey = process.env.STOCKS_API_KEY;
-  const symbol = req.body.searchStock.toUpperCase();
-  const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
-  const superQuery = {
-    apikey: apiKey,
-  };
-
-  superagent.get(url).query(superQuery)
-    .then(resultSuper => {
-      res.render('pages/stocks/stocksShow', { 'resultSuper': resultSuper.body[0] });
-    })
-    .catch(error => {
-      res.redirect('pages/stocks/stocksError');
-    });
-}
-
-app.post('/saveStock', sqlSaveStocks);
-function sqlSaveStocks(req, res) {
-
-
-  const sqlSaveIntoStocks = 'INSERT INTO stockssaved (symbol, userid) VALUES ($1, $2)';
-  const sqlStocksValues = [req.body.symbol, app.get('userId')]
-
-
-  client.query(sqlSaveIntoStocks, sqlStocksValues)
-    .then(result => res.redirect('stocks'));
-}
-
-function displayTrackedStocks(req, res) {
-  const sqlQuery = 'SELECT symbol FROM stockssaved WHERE userid = $1';
-  const sqlVal = [app.get('userId')];
-  client.query(sqlQuery, sqlVal)
-    .then(sqlRes => {
-      const savedArr = [];
-
-      sqlRes.rows.forEach(curr => {
-        const apiKey = process.env.STOCKS_API_KEY;
-        const symbol = curr.symbol;
-        const url = `https://financialmodelingprep.com/api/v3/profile/${symbol}`;
-        const superQuery = {
-          apikey: apiKey,
-        };
-
-        savedArr.push(superagent.get(url).query(superQuery)
-          .then(resultSuper => {
-            return resultSuper.body;
-          })
-          .catch(error => {
-            res.redirect('pages/stocks/stocksError')
-          }));
-      });
-      Promise.all(savedArr).then(result => {
-        res.render('pages/stocks/trackedStocks', {'sqlSaved': result});
-      });
-
-    })
-    .catch(error => console.error(error));
-}
-
-
-app.post('/stocksShow', displaySingleStock);
-
-
-app.get('/trackedStocks', displayTrackedStocks);
-
-
-
-/* ================================================*/
 
 app.listen(PORT, () => console.log('Listening on ', PORT));
 

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 require('dotenv').config();
 const superagent = require('superagent');
@@ -28,7 +28,7 @@ function getNewsSearch(req, res){
   const apiUrl = `https://api.nytimes.com/svc/topstories/v2/home.json`;
   const queryParams = {
     'api-key': process.env.NEWS_API_KEY
-  }
+  };
 
 
   superagent.get(apiUrl)

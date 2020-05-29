@@ -1,6 +1,6 @@
+'use strict';
 $(() => {
   // Create a 'clear' button and append it to each list item
-  const allTasks = $('#todoItems').find('li');
   let i;
 
   function renderTask(task) {
@@ -55,8 +55,6 @@ $(() => {
     widgets[i].onclick = function () {
       for (var j = 0; j < windows.length; j++) {
         if (windows[j].id === this.id) {
-          console.log(windows[0]);
-          console.log($('.widgetTray > li')[0].className);
           windows[j].className === 'widgetOn'
             ? (windows[j].className = 'widgetOff')
             : (windows[j].className = 'widgetOn');
@@ -68,8 +66,6 @@ $(() => {
   $('li#home').addClass('colorPageWidget');
 
   // database
-
-
   function getTasks() {
     return $.get({
       url: '/tasks'
