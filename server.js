@@ -242,16 +242,17 @@ function displaySingleStock(req, res) {
 app.post('/saveStock', sqlSaveStocks)
 function sqlSaveStocks(req, res) {
 
-  const sqlSaveIntoStocks = 'INSERT INTO stockssaved (symbol) VALUES ($1)';
-  const sqlStocksValues = [req.body.symbol]
+  const sqlSaveIntoStocks = 'INSERT INTO stockssaved (symbol, userid) VALUES ($1, $2)';
+  const sqlStocksValues = [req.body.symbol, app.get('userId')]
 
   client.query(sqlSaveIntoStocks, sqlStocksValues)
     .then(result => res.redirect('stocks'))
 }
 
 function displayTrackedStocks(req, res) {
-  const sqlQuery = 'SELECT symbol FROM stockssaved';
-  client.query(sqlQuery)
+  const sqlQuery = 'SELECT symbol FROM stockssaved WHERE userid = $1';
+  const sqlVal = [app.get('userId')]
+  client.query(sqlQuery, sqlVal)
   .then(sqlRes => {
     const savedArr = [];
     

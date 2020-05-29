@@ -9,6 +9,7 @@
 
 .stockLogo {
   width: 35%;
+
 }
 
 .stockInfo {
@@ -16,12 +17,16 @@
 }
 
 .tradingview-widget-container {
-  visibility: hidden;
+  display: none
 }
 
-@media screen and (min-width: 800px)  {
+img {
+  max-width: auto1;
+}
+
+@media screen and (min-width: 1000px)  {
 
   .tradingview-widget-container {
-    visibility: visible;
+    display: block;
   }
 }
