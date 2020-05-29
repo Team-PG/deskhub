@@ -1,0 +1,107 @@
+fieldset {
+  /* height: 50%; */
+  width: 60%;
+  padding-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+form > fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+form > fieldset > legend {
+  padding-top: 10px;
+  font-size: large;
+}
+
+fieldset > div > label{
+  /* padding-left: 10%;
+  text-align: left; */
+  /* margin-left: 25%; */
+  /* margin-right: auto; */
+  width: 53%;
+  text-align: left;
+}
+
+fieldset > div > div {
+  width: 47%;
+}
+
+fieldset > div > div > input {
+  margin-left: 15px;
+  float: right;
+}
+
+.newsSubmit {
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5%;
+}
+
+#center > ul > li {
+  padding: 15px 0px 20px 0px;
+  border: 1px solid black;
+  /* padding-bottom: 20px; */
+}
+
+#center ul {
+  width: 80% !important;
+}
+
+.topHeadlines {
+  padding: 10px 0px 10px 0px;
+  font-size: large;
+}
+
+#center form {
+  width: 80% !important;
+}
+
+#center p {
+  width: 80% !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ a {
+  width: 80% !important;
+  font-size: 18px;
+  color: white;
+  padding: 15px 5px 15px 0px;
+  text-align: right !important;
+  font-size: medium;
+}
+
+nav > a {
+  width: auto !important;
+}
+
+form > fieldset > div {
+  display: flex;
+  /* flex-direction: column; */
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 350px;
+  justify-content: left;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 960px){
+  #center > ul  {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  #center > ul > li {
+    width: 30%;
+    margin-left: 2.5%;
+    margin-top: 10px;
+  }
+
+  /* #center > ul > li:nth-child(){
+    padding-left: 1.5%;
+  } */
+}

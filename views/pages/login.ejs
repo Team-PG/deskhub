@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DeskHub</title>
   <script src="https://kit.fontawesome.com/94c005aa00.js" crossorigin="anonymous"></script>
+  <link rel="shortcut icon" href="/assets/images/favicon.ico" />
   <link rel="stylesheet" href="/styles/reset.css">
   <link rel="stylesheet" href="/styles/base.css">
   <link rel="stylesheet" href="/styles/layout.css">
@@ -21,23 +22,23 @@
         <h1>Welcome to DeskHub</h1>
         <h2>Are you new here?</h2>
         <label for="returningUser">
-          <input type="radio" id="returningUser" name="sign-in" value="returningUser">
+          <input type="radio" id="returningUser" name="userType" value="returningUser">
           Sign In
         </label>
-        <input type="text" class="returningUserText" name="returningName" placeholder="Username">
-        <input type="text" class="returningUserText" name="returningPass" placeholder="Password">
+        <input type="text" class="returningUserText" name="returningName" placeholder="Username" id="returningName">
+        <input type="password" class="returningUserText" name="returningPass" placeholder="Password">
 
         <label for="newUser">
-          <input type="radio" id="newUser" name="sign-in" value="newUser">
+          <input type="radio" id="newUser" name="userType" value="newUser">
           Create An Account
         </label> 
-        <input type="text" class="newUserText" name="newName" placeholder="Choose a Username">
-        <input type="text" class="newUserText" name="newPass" placeholder="Choose a Password">
-        <input type="text" class="newUserText" name="locationCity" placeholder="Current location (City, state)">
-        <label class="newUserText"> 
+        <input type="text" class="newUserText" name="newName" placeholder="Choose a Username" id="newName">
+        <input type="password" class="newUserText" name="newPass" placeholder="Choose a Password">
+        <input type="text" class="newUserText" name="location" placeholder="Current location (City, state)">
+        <!-- <label class="saveInfo"> 
           <input type="checkbox" name="saveInfo">
-          Save this information?
-        </label>
+          Remember me
+        </label> -->
 
         <input type="submit">
       </form>
@@ -45,6 +46,7 @@
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="/app.js"></script>
   <script src="/login.js"></script>
 </body>
 </html>
