@@ -40,10 +40,6 @@ What stretch goals are you going to aim for?
 
   - OAuth for single-application Reddit API.
 
-  - 
-
-
-
 ## Functional Requirements
 List the functionality of your product. This will consist of tasks such as the following:
 
