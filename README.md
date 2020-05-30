@@ -9,7 +9,7 @@
 ### **Version**: 1.0.4
 
 ## Overview
-DeskHub is an application designed to ease the hassle of browsing the internet daily for all the various information they might want to start their day. All in one place a user can find weather information for their location, news, stocks they're interested in, and job openings. All this information and more is available with your application.
+DeskHub is an application designed to ease the hassle of browsing the internet daily for all the various information they might want to start their day. All in one place a user can find weather information for their location, news, stocks they're interested in, and job openings. All this information and more is available within our application, and a user's information is saved over each session to create a personalized experience.
 
 ## Getting Started
 - Run NPM install from the root of this directory
@@ -25,7 +25,7 @@ DeskHub is an application designed to ease the hassle of browsing the internet d
   - psql -d DBNAME -f schema.sql
 
 ## Architecture
-The back end for this app utilizes JavaScript as the programming language, as well as packages such as EJS, for templating and rendering HTML, express (for creating the server), cors (provides the Connect/Express middleware), dotenv (for reading the env file), nodemon (to run a local server), Postgres (for SQL database), superagent (collects data from APIs), and Method Override (unpacking data from forms).
+This app utilizes JavaScript as the programming language, with Node and Express for running the server, as well as packages such as EJS for templating and rendering HTML, cors (provides the Connect/Express middleware), dotenv (for reading the env file), Postgres (for SQL database), superagent (collects data from APIs), and Method Override (unpacking data from forms).
 
 ## Credits and Collaborations
 Photos from UnSplash
